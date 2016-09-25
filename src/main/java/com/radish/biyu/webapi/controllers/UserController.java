@@ -23,7 +23,7 @@ import java.util.Date;
  *
  * @author cean
  * @version com.radish.biyu.webapi.controllers, v 0.1
- * @date 16/9/12.
+ * @date 16 /9/12.
  */
 @RestController
 @RequestMapping("/user")
@@ -36,24 +36,52 @@ public class UserController extends BaseController {
     @Autowired
     private UserInfoService userInfoService;
 
+    /**
+     * Gets user.
+     *
+     * @param id the id
+     * @return the user
+     */
     @Deprecated
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
     public ResponseDataModel getUser(@PathVariable int id) {
         return success("user:" + id);
     }
 
+    /**
+     * Validate account response data model.
+     *
+     * @param phone    the phone
+     * @param password the password
+     * @return the response data model
+     */
     @Deprecated
     @RequestMapping(value = "/valid/{phone}/{password}", method = RequestMethod.GET)
     public ResponseDataModel validateAccount(@PathVariable String phone, @PathVariable String password) {
         return success(accountService.validateAccount(phone, password));
     }
 
+    /**
+     * Add account response data model.
+     *
+     * @param phone    the phone
+     * @param password the password
+     * @return the response data model
+     */
     @Deprecated
     @RequestMapping(value = "/add/{phone}/{password}", method = RequestMethod.GET)
     public ResponseDataModel addAccount(@PathVariable String phone, @PathVariable String password) {
         return success(accountService.addAccount(phone, password));
     }
 
+    /**
+     * Change password response data model.
+     *
+     * @param phone       the phone
+     * @param oldPassword the old password
+     * @param newPassword the new password
+     * @return the response data model
+     */
     @Deprecated
     @RequestMapping(value = "/password/change/{phone}", method = RequestMethod.POST)
     public ResponseDataModel changePassword(@PathVariable String phone, String oldPassword, String newPassword) {
@@ -63,9 +91,9 @@ public class UserController extends BaseController {
     /**
      * 修改头像
      *
-     * @param id
-     * @param pic
-     * @return
+     * @param id  the id
+     * @param pic the pic
+     * @return response data model
      */
     @RequestMapping(value = "/modify/avatar/{id}", method = RequestMethod.POST)
     public ResponseDataModel modifyAvatar(@PathVariable Integer id, String pic) {
@@ -78,9 +106,9 @@ public class UserController extends BaseController {
     /**
      * 修改笔名
      *
-     * @param id
-     * @param name
-     * @return
+     * @param id   the id
+     * @param name the name
+     * @return response data model
      */
     @RequestMapping(value = "/modify/nick/{id}", method = RequestMethod.POST)
     public ResponseDataModel modifyNickName(@PathVariable Integer id, String name) {
@@ -93,9 +121,9 @@ public class UserController extends BaseController {
     /**
      * 修改个性签名
      *
-     * @param id
-     * @param signature
-     * @return
+     * @param id        the id
+     * @param signature the signature
+     * @return response data model
      */
     @RequestMapping(value = "/modify/signature/{id}", method = RequestMethod.POST)
     public ResponseDataModel modifySignature(@PathVariable Integer id, String signature) {
@@ -108,11 +136,11 @@ public class UserController extends BaseController {
     /**
      * 性别+生日+星座
      *
-     * @param id
-     * @param sex
-     * @param birthday
-     * @param sign
-     * @return
+     * @param id       the id
+     * @param sex      the sex
+     * @param birthday the birthday
+     * @param sign     the sign
+     * @return response data model
      */
     @RequestMapping(value = "/modify/info/{id}", method = RequestMethod.POST)
     public ResponseDataModel modifyInfo(@PathVariable Integer id, String sex, String birthday, String sign) {
@@ -131,11 +159,11 @@ public class UserController extends BaseController {
     /**
      * 座标+状态+爱好
      *
-     * @param id
-     * @param location
-     * @param status
-     * @param favorite
-     * @return
+     * @param id       the id
+     * @param location the location
+     * @param status   the status
+     * @param favorite the favorite
+     * @return response data model
      */
     @RequestMapping(value = "/modify/otherinfo/{id}", method = RequestMethod.POST)
     public ResponseDataModel modifyOtherInfo(@PathVariable Integer id, String location, String status, String favorite) {
@@ -149,9 +177,9 @@ public class UserController extends BaseController {
     /**
      * 修改需求
      *
-     * @param id
-     * @param needs
-     * @return
+     * @param id    the id
+     * @param needs the needs
+     * @return response data model
      */
     @RequestMapping(value = "/modify/needs/{id}", method = RequestMethod.POST)
     public ResponseDataModel modifyNeeds(@PathVariable Integer id, String needs) {
@@ -164,9 +192,9 @@ public class UserController extends BaseController {
     /**
      * 修改邮编
      *
-     * @param id
-     * @param postcode
-     * @return
+     * @param id       the id
+     * @param postcode the postcode
+     * @return response data model
      */
     @RequestMapping(value = "/modify/postcode/{id}", method = RequestMethod.POST)
     public ResponseDataModel modifyPostCode(@PathVariable Integer id, String postcode) {
@@ -177,6 +205,12 @@ public class UserController extends BaseController {
     }
 
 
+    /**
+     * Test add point response data model.
+     *
+     * @param id the id
+     * @return the response data model
+     */
     @RequestMapping(value = "/test/point/{id}", method = RequestMethod.POST)
     public ResponseDataModel testAddPoint(@PathVariable Integer id) {
         return this.success(userInfoService.addPoint(id, false, 10L, "y"));
