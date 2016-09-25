@@ -1,19 +1,17 @@
 package com.radish.biyu.webapi.response;
 
-
 /**
- * @author bojue
+ * @author tiaotiaohu
  * @corporation radish.com Inc.
  * @date 2016年7月6日 下午6:32:23
  * @description API接口返回状态码
  */
 public enum ApiStatusCode {
-
     /**
      * 说明
      * 总共长度为 七位
      * 第一位（代表错误级别（1：系统错误，2：普通异常））
-     * 第二位，第三位（星密码服务代码  如 ：01代表公共服务  02 代表 MMS  03代表AMS 05代表店铺分析工具）
+     * 第二位，第三位（星密码服务代码  如 ：01代表公共服务  02 代表 笔遇APP）
      * 第四位，第五位（服务内模块代码）
      * 第六位，第七位（具体状态信息）
      */
@@ -35,14 +33,7 @@ public enum ApiStatusCode {
     CACHE_LOCK_ERROR("2010015", "缓存数据加锁失败"),
     CACHE_UNLOCK_ERROR("2010016", "缓存数据解锁失败"),
 
-    HAS_FOLLOWED_SHOP("2050001", "已关注该店铺"),
-    HAS_BINDED_SHOP("2050002", "已绑定该店铺"),
-    SHOP_NOT_EXIST("205003", "店铺不存在"),
-    ACCOUNT_HAS_BINDING_SHOP("205004", "账户已绑定店铺"),
-    ACCOUNT_FOLLOW_SHOP_LIMIT("205005", "账户关注店铺已达5个"),
-    SHOP_HAS_BINDED("205006", "店铺已被绑定"),
-    CANNOT_FOLLOW_OWN_SHOP("205007", "不能关注自己的店铺"),
-    ACCOUNT_NOT_BIND_SHOP("205008", "该帐号未绑定淘宝店铺"),
+    PARAM_ERROR("2020001", "参数错误！"),
 
     /**
      * 成功状态码

@@ -3,6 +3,8 @@ package com.radish.biyu.webapi.controllers;
 
 import com.radish.biyu.webapi.response.ApiStatusCode;
 import com.radish.biyu.webapi.response.ResponseDataModel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * radish.com Inc.
@@ -13,7 +15,8 @@ import com.radish.biyu.webapi.response.ResponseDataModel;
  * @date 2016/9/14 12:50
  */
 public class BaseController {
-
+    private static final Logger log = LoggerFactory.getLogger(BaseController.class);
+    
     /**
      * 返回错误提示
      *
