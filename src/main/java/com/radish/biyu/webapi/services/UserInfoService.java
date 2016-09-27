@@ -4,15 +4,12 @@ import com.alibaba.fastjson.JSON;
 import com.radish.biyu.webapi.dao.TUserInfoDao;
 import com.radish.biyu.webapi.entity.TPointIo;
 import com.radish.biyu.webapi.entity.TUserInfo;
-import com.radish.biyu.webapi.util.Helper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
-import java.util.HashMap;
 
 /**
  * radish.com Inc.

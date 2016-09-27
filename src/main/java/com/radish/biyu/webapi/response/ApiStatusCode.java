@@ -26,12 +26,8 @@ public enum ApiStatusCode {
     DB_INSERT_ERROR("2010008", "数据库插入失败"),
     DB_QUERY_ERROR("2010009", "数据库查询失败"),
     DB_DELETE_ERROR("2010010", "数据库删除失败"),
-    INTERFACE_ID_FORMMAT_ERROR("2010011", "接口id格式错误"),
-    CALLS_RPC_INTERFACE_ERROR("2010012", "调用rpc接口错误"),
-    RESOURCE_NOT_EXIST("2010013", "资源不存在"),
-    BUSSINESS_EXCEPTION("2010014", "业务类异常"),
-    CACHE_LOCK_ERROR("2010015", "缓存数据加锁失败"),
-    CACHE_UNLOCK_ERROR("2010016", "缓存数据解锁失败"),
+
+    FAILD("2010011", "操作失败"),
 
     PARAM_ERROR("2020001", "参数错误！"),
 
@@ -39,6 +35,7 @@ public enum ApiStatusCode {
      * 成功状态码
      */
     SUCCESS("2000000", "操作成功");
+
 
     private final String code;
     private final String msg;

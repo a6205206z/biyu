@@ -43,12 +43,56 @@ http://localhost:8089/user/modify/needs/1?needs=%E5%AE%89%E6%85%B0%3B%E9%BC%93%E
 http://localhost:8089/user/modify/postcode/1?postcode=123456
 
 
+//======发布动态接口=====================================
+参数说明
+
+ftype:动态类型 1:公开信 2:分享 3:征友
+lat:纬度
+lng:经度
+message：文本内容
+pic：图片路径
+uid：发布者会员ID
+
+POST http://localhost:8089/feed/post
+Content-Type: application/json
+
+//发布动态接口，无图时上传
+{"ftype":"1","lat":"30.67","lng":"104.06","message":"测试文本内容~121298","pic":[],"uid":100}
+
+//发布动态接口，有图时上传
+{"ftype":"1","lat":"30.67","lng":"104.06","message":"测试文本内容~121298","pic":["http://b.hiphotos.baidu.com/baike/c0%3Dbaike80%2C5%2C5%2C80%2C26/sign=277c06a0cc1349546a13e0363727f93d/3812b31bb051f819ffbbbd6bddb44aed2e73e771.jpg","http://b.hiphotos.baidu.com/baike/crop%3D0%2C2%2C560%2C370%3Bc0%3Dbaike80%2C5%2C5%2C80%2C26/sign=44216f7132f33a878a225a5afb6c3c0a/b3b7d0a20cf431ad5af7af784336acaf2edd984e.jpg","http://a.hiphotos.baidu.com/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=88b3ac0bdc2a283457ab3e593adca28f/adaf2edda3cc7cd965fa88cf3101213fb90e91d5.jpg"],"uid":100}
+
+//=======翻页查询feed列表==================================
+GET http://localhost:8089/feed/list/0/0/10
+
+/feed/list/{ftype}/{pageno}/{pagesize}
+
+==下面这些参数为非必传uid, lng, lat====后续使用添加======
+
+ftype=0 为全部，其它值为对象类型
+
+{"code":"2000000","msg":"操作成功","data":[{"birthday":"2016-09-27","lng":"104.06","created":1474901374000,"nickName":"b4","sex":"0","pic":[],"avatar":"http://baidu.com/logo.jpg","message":"测试文本内容~14444444444","forwarded":4,"liked":0,"uid":3,"ftype":"1","id":10,"lat":"30.67","commentnum":0},{"birthday":"2016-09-27","lng":"104.06","created":1474900795000,"nickName":"b1","sex":"0","pic":["http://b.hiphotos.baidu.com/baike/c0%3Dbaike80%2C5%2C5%2C80%2C26/sign=277c06a0cc1349546a13e0363727f93d/3812b31bb051f819ffbbbd6bddb44aed2e73e771.jpg","http://b.hiphotos.baidu.com/baike/crop%3D0%2C2%2C560%2C370%3Bc0%3Dbaike80%2C5%2C5%2C80%2C26/sign=44216f7132f33a878a225a5afb6c3c0a/b3b7d0a20cf431ad5af7af784336acaf2edd984e.jpg","http://a.hiphotos.baidu.com/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=88b3ac0bdc2a283457ab3e593adca28f/adaf2edda3cc7cd965fa88cf3101213fb90e91d5.jpg"],"avatar":"http://baidu.com/logo.jpg","message":"测试文wwwwwww本内容~1434345345","forwarded":0,"liked":3,"uid":1,"ftype":"1","id":7,"lat":"30.67","commentnum":0},{"birthday":"2016-09-27","lng":"104.06","created":1474900707000,"nickName":"b1","sex":"0","pic":["http://b.hiphotos.baidu.com/baike/c0%3Dbaike80%2C5%2C5%2C80%2C26/sign=277c06a0cc1349546a13e0363727f93d/3812b31bb051f819ffbbbd6bddb44aed2e73e771.jpg","http://b.hiphotos.baidu.com/baike/crop%3D0%2C2%2C560%2C370%3Bc0%3Dbaike80%2C5%2C5%2C80%2C26/sign=44216f7132f33a878a225a5afb6c3c0a/b3b7d0a20cf431ad5af7af784336acaf2edd984e.jpg","http://a.hiphotos.baidu.com/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=88b3ac0bdc2a283457ab3e593adca28f/adaf2edda3cc7cd965fa88cf3101213fb90e91d5.jpg"],"avatar":"http://baidu.com/logo.jpg","message":"测试文wwwwwww本内容~121298","forwarded":20,"liked":10,"uid":1,"ftype":"1","id":6,"lat":"30.67","commentnum":0},{"birthday":"2016-09-27","lng":"104.06","created":1474900457000,"nickName":"b1","sex":"0","pic":[],"avatar":"http://baidu.com/logo.jpg","message":"测试文本内容~121298","forwarded":1,"liked":0,"uid":1,"ftype":"1","id":2,"lat":"30.67","commentnum":2}]}
 
 
+//======查看单条feed信息==================================
+GET http://localhost:8089/feed/get/{fid}
+{"code":"2000000","msg":"操作成功","data":{"id":2,"uid":1,"ftype":"1","lng":"104.06","lat":"30.67","message":"测试文本内容~121298","pic":[],"forwarded":1,"liked":0,"created":1474900457000}}
+
+//=======发表评论=========================================
+POST http://localhost:8089/comment/post
+Content-Type: application/json
+{"comments":"在那里啊？出来<script src='http://baidu.com/x.js'></script>high","fid":2222,"uid":2221}
+{"comments":"在那里啊？出来high","fid":2,"uid":100}
+
+//=======翻页查询评论列表==================================
+GET http://localhost:8089/comment/list/{fid}/{pageno}/{pagesize}
+{"code":"2000000","msg":"操作成功","data":[{"fid":2,"uid":1,"comments":"在那里啊？出来high","created":1474941842000,"nickName":"b1","id":2},{"fid":2,"uid":1,"comments":"xzzzzzzzzzzzzzzzzzzzzzzzzzzzzz","created":1474940993000,"nickName":"b1","id":1}]}
 
 
+//=======喜欢+1==================================
+POST http://localhost:8089/feed/liked/{fid}
 
-
-
+//=======喜欢+1==================================
+POST http://localhost:8089/feed/forward/{fid}
 
 */
