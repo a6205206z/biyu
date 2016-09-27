@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
+import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -17,6 +18,7 @@ import java.util.List;
  * @version com.radish.biyu.webapi.dao, v 0.1
  * @date 16/9/25.
  */
+@Repository
 public interface TMailDao {
 
     @Select("SELECT * FROM t_mail WHERE fromPhone = #{phone}")

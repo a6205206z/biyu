@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
+import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 
@@ -15,6 +16,7 @@ import java.util.HashMap;
  * @version com.radish.biyu.webapi.dao, v 0.1
  * @date 16/9/24.
  */
+@Repository
 public interface TAccountDao {
     @Select("SELECT count(0) as rowcount FROM t_account WHERE phone = #{phone} AND password = #{password}")
     HashMap<String,Object> validateAccount(@Param("phone") String phone, @Param("password") String password);
