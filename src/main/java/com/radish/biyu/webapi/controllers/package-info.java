@@ -46,7 +46,7 @@ http://localhost:8089/user/modify/postcode/1?postcode=123456
 //======发布动态接口=====================================
 参数说明
 
-ftype:动态类型 1:公开信 2:分享 3:征友
+ftype:动态类型 0:全部 1:公开信 2:分享 3:征友
 lat:纬度
 lng:经度
 message：文本内容
@@ -95,5 +95,54 @@ POST http://localhost:8089/feed/liked/{fid}
 //=======喜欢+1==================================
 POST http://localhost:8089/feed/forward/{fid}
 
-//-测试提交
+
+//v2016.10.10新增=====
+
+添加短信log方法
+AccountService.addSmsLog(String mobile, String verifiCode)
+添加邮票
+MailService.addStamp(String mobile, Integer mailId, String pic)
+
+问题2：注册第一步，提交时验证SMS验证码是否有效
+http://localhost:8089/user/register/{phone}/{verifiCode}],methods=[POST]
+POST http://localhost:8089/user/register/15729728701/1234
+{"code":"2000000","msg":"操作成功","data":true}  //有效验证码
+{"code":"2000000","msg":"操作成功","data":false} //无效验证码
+
+问题3：注册会员
+GET http://localhost:8089/user/add/15729728701/1234
+{"code":"2000000","msg":"操作成功","data":18}  成功，返回ID
+{"code":"2000000","msg":"操作成功","data":null} 失败，帐号存在
+
+问题4：: ftype:动态类型包括｛0:全部 1:公开信 2:分享 3:征友｝
+
+问题8：{[/user/get/info/{id}],methods=[GET]}
+GET http://localhost:8089/user/get/info/6
+{"code":"2000000","msg":"操作成功","data":{"id":6,"accountphone":"chengcheng","avatar":"123","postcode":"321","nickname":"ee","sex":"e","birthday":"2016-10-10","zodiac":"123","location":"123","favorite":"123","needs":"123","status":"123","signature":"123","point":123,"updated":1476110967000,"flag":false}}
+
+id 会员ID
+accountPhone 对应t_account的手机号
+avatar NULL头像
+postCode NULL邮编
+nickName 昵称
+sexvar 性别,0 女 1 男 2 其它
+birthDay 出生年月
+zodiac 星座
+location 出生地
+favorite 爱好
+needs 需求
+status 目前状态
+signature 个性签名
+point 积分
+updated 更新时间
+
+问题9：
+{[/stamp/list/{mobile}/{pageno}/{pagesize}]}
+
+GET http://localhost:8089/stamp/list/15729728701/0/2
+{"code":"2000000","msg":"操作成功","data":{"total":3,"list":[{"id":1,"pic":"http://fanyi.baidu.com/static/translation/img/header/logo_cbfea26.png"},{"id":2,"pic":"http://fanyi.baidu.com/static/translation/img/header/22222222.png"}]}}
+
+total ：总数
+list : pic 图片URL
+
 */

@@ -1,14 +1,17 @@
 package com.radish.biyu.webapi.services;
 
 import com.radish.biyu.webapi.dao.TAccountDao;
+import com.radish.biyu.webapi.dao.TSmsLogDao;
+import com.radish.biyu.webapi.dao.TUserInfoDao;
+import com.radish.biyu.webapi.entity.TAccount;
 import com.radish.biyu.webapi.util.Helper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -26,6 +29,11 @@ public class AccountService {
     @Autowired
     private TAccountDao tAccountDao;
 
+    @Autowired
+    private TSmsLogDao tSmsLogDao;
+    @Autowired
+    private TUserInfoDao infodao;
+
     /**
      * Validate account boolean.
      *
@@ -33,7 +41,7 @@ public class AccountService {
      * @param password the password
      * @return the boolean
      */
-    public boolean validateAccount(String phone,String password){
+    public boolean validateAccount(String phone, String password) {
         boolean result = false;
 
         try {
@@ -42,8 +50,26 @@ public class AccountService {
             log.error(e.toString());
         }
 
-        HashMap<String,Object> data = tAccountDao.validateAccount(phone,password);
-        if(data.get("rowcount").equals(1L)){
+        HashMap<String, Object> data = tAccountDao.validateAccount(phone, password);
+        if (data.get("rowcount").equals(1L)) {
+            result = true;
+        }
+        return result;
+    }
+
+    /**
+     * 注册验证短信，15分钟内有效
+     *
+     * @param phone
+     * @param verifiCode
+     * @return
+     */
+    public boolean checkVerifiCode(String phone, String verifiCode) {
+        boolean result = false;
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.MINUTE, -15);
+        Long exists = this.tSmsLogDao.checkVerifiCode(phone, verifiCode, c.getTime());
+        if (null != exists && exists > 0) {
             result = true;
         }
         return result;
@@ -56,21 +82,24 @@ public class AccountService {
      * @param password the password
      * @return the boolean
      */
-    public boolean addAccount(String phone,String password){
-        boolean result = false;
-
-        HashMap<String,Object> data = tAccountDao.getAccountByPhone(phone);
-        if((long)data.get("rowcount") == 0) {
+    public Integer addAccount(String phone, String password) {
+        HashMap<String, Object> data = tAccountDao.getAccountByPhone(phone);
+        if ((long) data.get("rowcount") == 0) {
             try {
                 password = Helper.EncoderByMd5(password);
-                int r = tAccountDao.addAccount(phone,password);
-                result = (r>0);
+                TAccount account = new TAccount();
+                account.setPhone(phone);
+                account.setPassword(password);
+                if (tAccountDao.addAccount(account) > 0) {
+                    //TODO: 初始基础信息表记录
+                    infodao.initUserInfo(account.getId(), phone);
+                    return account.getId();
+                }
             } catch (Exception e) {
                 log.error(e.toString());
             }
         }
-
-        return result;
+        return null;
     }
 
     /**
@@ -81,18 +110,37 @@ public class AccountService {
      * @param newpassword the newpassword
      * @return the boolean
      */
-    public boolean changePassword(String phone,String oldpassword,String newpassword){
+    public boolean changePassword(String phone, String oldpassword, String newpassword) {
         boolean result = false;
         try {
             oldpassword = Helper.EncoderByMd5(oldpassword);
             newpassword = Helper.EncoderByMd5(newpassword);
 
-            int r = tAccountDao.updatePassword(phone,oldpassword,newpassword);
-            result = (r>0);
+            int r = tAccountDao.updatePassword(phone, oldpassword, newpassword);
+            result = (r > 0);
         } catch (Exception e) {
             log.error(e.toString());
         }
 
+        return result;
+    }
+
+
+    /**
+     * 添加短信验证码记录
+     *
+     * @param mobile
+     * @param verifiCode
+     * @return
+     */
+    public boolean addSmsLog(String mobile, String verifiCode) {
+        boolean result = false;
+        try {
+            int r = tSmsLogDao.addSmsLog(mobile, verifiCode, new Date());
+            result = (r > 0);
+        } catch (Exception e) {
+            log.error(e.toString());
+        }
         return result;
     }
 }

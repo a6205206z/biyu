@@ -9,8 +9,6 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.UpdateProvider;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
-
 /**
  * radish.com Inc.
  * Copyright (c) 2015-2016 All Rights Reserved.
@@ -21,6 +19,9 @@ import java.util.HashMap;
  */
 @Repository
 public interface TUserInfoDao {
+
+    @Insert("INSERT INTO t_user_info (`id`, `accountPhone`) VALUES (#{id},#{accountPhone})")
+    int initUserInfo(@Param("id") Integer id, @Param("accountPhone") String accountPhone);
 
     /**
      * 基础信息操作

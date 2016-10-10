@@ -44,7 +44,7 @@ public class FeedProvider {
         str.append(") t3 ");
         str.append("LEFT JOIN `t_user_info` t4 ON t3.uid = t4.`id`");
 
-        System.out.println(str.toString());
+        //System.out.println(str.toString());
 
         return str.toString();
     }

@@ -45,6 +45,15 @@ public class UserInfoService {
     }
 
     /**
+     * 查询用户查询信息
+     * @param uid
+     * @return
+     */
+    public TUserInfo selectUserInfo(Integer uid) {
+        return infodao.select(uid);
+    }
+
+    /**
      * 积分操作项
      *
      * @param uid   会员ID

@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.text.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -62,6 +63,18 @@ public class UserController extends BaseController {
     }
 
     /**
+     * 注册第一步较验
+     *
+     * @param phone
+     * @param verifiCode
+     * @return
+     */
+    @RequestMapping(value = "/register/{phone}/{verifiCode}", method = RequestMethod.POST)
+    public ResponseDataModel checkVerifiCode(@PathVariable String phone, @PathVariable String verifiCode) {
+        return success(accountService.checkVerifiCode(phone, verifiCode));
+    }
+
+    /**
      * Add account response data model.
      *
      * @param phone    the phone
@@ -86,6 +99,20 @@ public class UserController extends BaseController {
     @RequestMapping(value = "/password/change/{phone}", method = RequestMethod.POST)
     public ResponseDataModel changePassword(@PathVariable String phone, String oldPassword, String newPassword) {
         return success(accountService.changePassword(phone, oldPassword, newPassword));
+    }
+
+    /**
+     * 查询会员基础信息接口
+     *
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/get/info/{id}", method = RequestMethod.GET)
+    public ResponseDataModel selectUserInfo(@PathVariable Integer id) {
+        if (StringUtils.isEmpty(id)) {
+            return this.error(ApiStatusCode.PARAM_ERROR);
+        }
+        return this.success(userInfoService.selectUserInfo(id));
     }
 
     /**
@@ -153,7 +180,7 @@ public class UserController extends BaseController {
         } catch (ParseException e) {
             log.error("", e);
         }
-        return this.success(userInfoService.modifyInfo(new TUserInfo().setId(id).setSex(sex).setBirthday(b).setZodiac(sign)));
+        return this.success(userInfoService.modifyInfo(new TUserInfo().setId(id).setSex(sex).setBirthday(birthday).setZodiac(sign)));
     }
 
     /**
@@ -172,7 +199,6 @@ public class UserController extends BaseController {
         }
         return this.success(userInfoService.modifyInfo(new TUserInfo().setId(id).setLocation(location).setStatus(status).setFavorite(favorite)));
     }
-
 
     /**
      * 修改需求
@@ -202,18 +228,6 @@ public class UserController extends BaseController {
             return this.error(ApiStatusCode.PARAM_ERROR);
         }
         return this.success(userInfoService.modifyInfo(new TUserInfo().setId(id).setPostcode(postcode)));
-    }
-
-
-    /**
-     * Test add point response data model.
-     *
-     * @param id the id
-     * @return the response data model
-     */
-    @RequestMapping(value = "/test/point/{id}", method = RequestMethod.POST)
-    public ResponseDataModel testAddPoint(@PathVariable Integer id) {
-        return this.success(userInfoService.addPoint(id, false, 10L, "y"));
     }
 
 }

@@ -1,6 +1,9 @@
 package com.radish.biyu.webapi.services;
 
 import com.radish.biyu.webapi.dao.TMailDao;
+import com.radish.biyu.webapi.dao.TStampDao;
+import com.radish.biyu.webapi.dto.StampDTO;
+import com.radish.biyu.webapi.entity.TStamp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +27,10 @@ public class MailService {
 
     @Autowired
     private TMailDao tMailDao;
+
+    @Autowired
+    private TStampDao tStampDao;
+
 
     /**
      * Get mail from me list.
@@ -88,5 +95,48 @@ public class MailService {
         HashMap<String, Object> data = tMailDao.getMailByID(id, phone);
 
         return data;
+    }
+
+    /**
+     * 添加邮票记录
+     *
+     * @param mobile 接收方手机号
+     * @param mailId 信件标识
+     * @param pic    图片URL
+     * @return
+     */
+    public boolean addStamp(String mobile, Integer mailId, String pic) {
+        boolean result = false;
+        try {
+            TStamp stamp = new TStamp();
+            stamp.setMailId(mailId);
+            stamp.setPic(pic);
+            stamp.setMobile(mobile);
+            stamp.setCreated(new Date());
+            int r = tStampDao.addStamp(stamp);
+            result = (r > 0);
+        } catch (Exception e) {
+            log.error(e.toString());
+        }
+        return result;
+    }
+
+    /**
+     * 翻页查邮票
+     *
+     * @param mobile
+     * @param pageno
+     * @param pagesize
+     * @return
+     */
+    public StampDTO list(String mobile, Integer pageno, Integer pagesize) {
+        StampDTO dto = new StampDTO();
+        Integer cnt = this.tStampDao.cnt(mobile);
+        if (null != cnt && cnt > 0) {
+            List<HashMap<String, Object>> list = this.tStampDao.list(mobile, pageno * pagesize, pagesize);
+            dto.setTotal(cnt);
+            dto.setList(list);
+        }
+        return dto;
     }
 }
