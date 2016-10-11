@@ -63,11 +63,24 @@ public class UserController extends BaseController {
     }
 
     /**
+     * Login response data model.
+     *
+     * @param phone    the phone
+     * @param password the password
+     * @return the response data model
+     */
+    @Deprecated
+    @RequestMapping(value = "/login/{phone}/{password}", method = RequestMethod.GET)
+    public ResponseDataModel login(@PathVariable String phone, @PathVariable String password){
+        return success(accountService.login(phone,password));
+    }
+
+    /**
      * 注册第一步较验
      *
-     * @param phone
-     * @param verifiCode
-     * @return
+     * @param phone      the phone
+     * @param verifiCode the verifi code
+     * @return response data model
      */
     @RequestMapping(value = "/register/{phone}/{verifiCode}", method = RequestMethod.POST)
     public ResponseDataModel checkVerifiCode(@PathVariable String phone, @PathVariable String verifiCode) {
@@ -104,8 +117,8 @@ public class UserController extends BaseController {
     /**
      * 查询会员基础信息接口
      *
-     * @param id
-     * @return
+     * @param id the id
+     * @return response data model
      */
     @RequestMapping(value = "/get/info/{id}", method = RequestMethod.GET)
     public ResponseDataModel selectUserInfo(@PathVariable Integer id) {

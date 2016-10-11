@@ -4,6 +4,7 @@ import com.radish.biyu.webapi.dao.TAccountDao;
 import com.radish.biyu.webapi.dao.TSmsLogDao;
 import com.radish.biyu.webapi.dao.TUserInfoDao;
 import com.radish.biyu.webapi.entity.TAccount;
+import com.radish.biyu.webapi.entity.TUserInfo;
 import com.radish.biyu.webapi.util.Helper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,11 +59,34 @@ public class AccountService {
     }
 
     /**
+     * Login hash map.
+     *
+     * @param phone    the phone
+     * @param password the password
+     * @return the hash map
+     */
+    public TUserInfo login(String phone, String password){
+
+        TUserInfo result = null;
+        try {
+            password = Helper.EncoderByMd5(password);
+        } catch (Exception e) {
+            log.error(e.toString());
+        }
+
+        HashMap<String, Object> data = tAccountDao.validateAccount(phone, password);
+        if (data.get("rowcount").equals(1L)) {
+            result = infodao.selectByPhone(phone);
+        }
+        return result;
+    }
+
+    /**
      * 注册验证短信，15分钟内有效
      *
-     * @param phone
-     * @param verifiCode
-     * @return
+     * @param phone      the phone
+     * @param verifiCode the verifi code
+     * @return boolean
      */
     public boolean checkVerifiCode(String phone, String verifiCode) {
         boolean result = false;
@@ -129,9 +153,9 @@ public class AccountService {
     /**
      * 添加短信验证码记录
      *
-     * @param mobile
-     * @param verifiCode
-     * @return
+     * @param mobile     the mobile
+     * @param verifiCode the verifi code
+     * @return boolean
      */
     public boolean addSmsLog(String mobile, String verifiCode) {
         boolean result = false;

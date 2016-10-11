@@ -42,6 +42,15 @@ public interface TUserInfoDao {
     TUserInfo select(Integer id);
 
     /**
+     * 查询会员基础信息ByPhone
+     *
+     * @param phone
+     * @return
+     */
+    @Select("SELECT `id`, `accountPhone` as accountphone, `avatar`, `postCode` as postcode, `nickName` as nickname, `sex`, `birthDay` as birthday, `zodiac`, `location`, `favorite`, `needs`, `status`, `signature`, `point`, `updated` FROM t_user_info WHERE accountPhone = #{phone}")
+    TUserInfo selectByPhone(String phone);
+
+    /**
      * 积分操作
      *
      * @param info
