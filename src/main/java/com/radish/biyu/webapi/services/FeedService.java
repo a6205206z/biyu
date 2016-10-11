@@ -2,6 +2,7 @@ package com.radish.biyu.webapi.services;
 
 import com.alibaba.fastjson.JSON;
 import com.radish.biyu.webapi.dao.TFeedDao;
+import com.radish.biyu.webapi.dao.TLikedDao;
 import com.radish.biyu.webapi.dto.RequestFeed;
 import com.radish.biyu.webapi.dto.TFeedDTO;
 import com.radish.biyu.webapi.entity.TFeed;
@@ -30,6 +31,9 @@ public class FeedService {
 
     @Autowired
     private TFeedDao tFeedDao;
+
+    @Autowired
+    private TLikedDao tLikedDao;
 
     /**
      * 发布动态
@@ -84,8 +88,9 @@ public class FeedService {
      * @param pagesize
      * @return
      */
-    public List<HashMap<String, Object>> list(String ftype, Integer pageno, Integer pagesize) {
+    public List<HashMap<String, Object>> list(Long uid, String ftype, Integer pageno, Integer pagesize) {
         HashMap<String, Object> param = new HashMap<String, Object>();
+        param.put("uid", uid);
         param.put("ftype", ftype);
         param.put("pageno", pageno * pagesize);
         param.put("pagesize", pagesize);
@@ -121,11 +126,20 @@ public class FeedService {
      * @param id
      * @return
      */
-    public boolean addLike(Long id) {
+    public boolean addLike(Long id, Long uid) {
         HashMap param = new HashMap<>();
         param.put("id", id);
         param.put("liked", "1");
-        return this.tFeedDao.clickFav(param);
+        if (this.tFeedDao.clickFav(param)) {
+            //TODO:添加喜欢记录
+            try {
+                tLikedDao.addLikeLog(id, uid, new Date());
+            } finally {
+            }
+            return true;
+        } else {
+            return false;
+        }
     }
 }
 

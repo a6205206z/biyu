@@ -84,7 +84,7 @@ public class FeedController extends BaseController {
         if (null == ftype) {
             return this.error(ApiStatusCode.PARAM_ERROR);
         }
-        return this.success(this.feedService.list(ftype, pageno, pagesize));
+        return this.success(this.feedService.list(uid, ftype, pageno, pagesize));
     }
 
     /**
@@ -107,12 +107,12 @@ public class FeedController extends BaseController {
      * @param fid
      * @return
      */
-    @RequestMapping(value = "/liked/{fid}", method = RequestMethod.POST)
-    public ResponseDataModel addLike(@PathVariable Long fid) {
-        if (null == fid) {
+    @RequestMapping(value = "/liked/{fid}/{uid}", method = RequestMethod.POST)
+    public ResponseDataModel addLike(@PathVariable Long fid,@PathVariable Long uid) {
+        if (null == fid || null == uid) {
             return this.error(ApiStatusCode.PARAM_ERROR);
         }
-        return this.success(feedService.addLike(fid));
+        return this.success(feedService.addLike(fid,uid));
     }
 
 }
