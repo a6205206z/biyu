@@ -39,4 +39,10 @@ public class PenPalController extends BaseController {
     public ResponseDataModel getPenpalList(@PathVariable String phone){
         return success(penPalService.getMyPenPalList(phone));
     }
+
+    @Deprecated
+    @RequestMapping(value = "/search/{phone}/{key}", method = RequestMethod.GET)
+    public ResponseDataModel searchPenpal(@PathVariable("phone") String phone,@PathVariable String key){
+        return success(penPalService.searchPenpal(phone,key));
+    }
 }

@@ -31,4 +31,7 @@ public interface TPenPalDao {
 
     @Select("SELECT u.`id`, `accountPhone` as accountphone, `avatar`, `postCode` as postcode, `nickName` as nickname, `sex`, `birthDay` as birthday, `zodiac`, `location`, `favorite`, `needs`, `status`, `signature`, `point`, `updated` FROM t_penpal as p LEFT JOIN t_user_info as u on p.`penpalPhone` = u.`accountPhone` WHERE p.phone = #{phone}")
     List<TUserInfo> getMyPenpalList(@Param("phone") String phone);
+
+    @Select("SELECT u.`id`, `accountPhone` as accountphone, `avatar`, `postCode` as postcode, `nickName` as nickname, `sex`, `birthDay` as birthday, `zodiac`, `location`, `favorite`, `needs`, `status`, `signature`, `point`, (p.phone = #{phone}) as `ismypenpal` ,`updated` FROM t_user_info as u LEFT JOIN `t_penpal` as p on p.`penpalPhone` = u.`accountPhone` where u.`accountphone` like #{key} or u.`nickName` like #{key}")
+    List<HashMap<String, Object>> searchPenpal(@Param("phone") String phone,@Param("key") String key);
 }

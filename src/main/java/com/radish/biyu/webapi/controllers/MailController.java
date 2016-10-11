@@ -95,4 +95,18 @@ public class MailController extends BaseController {
     public ResponseDataModel readMail(@PathVariable int id,@PathVariable String phone){
         return success(mailService.readMail(id,phone));
     }
+
+    /**
+     * Add stamp response data model.
+     *
+     * @param phone  the phone
+     * @param mailID the mail id
+     * @param picUrl the pic url
+     * @return the response data model
+     */
+    @Deprecated
+    @RequestMapping(value = "/stamp/add/{phone}", method = RequestMethod.POST)
+    public ResponseDataModel addStamp(@PathVariable String phone,int mailID,String picUrl){
+        return success(mailService.addStamp(phone,mailID,picUrl));
+    }
 }

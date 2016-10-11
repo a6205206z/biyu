@@ -64,4 +64,14 @@ public class PenPalService {
     public List<TUserInfo> getMyPenPalList(String phone){
         return tPenPalDao.getMyPenpalList(phone);
     }
+
+    /**
+     * Search penpal list.
+     *
+     * @param key the key
+     * @return the list
+     */
+    public List<HashMap<String, Object>> searchPenpal(String phone,String key){
+        return tPenPalDao.searchPenpal(phone,"%"+key+"%");
+    }
 }
