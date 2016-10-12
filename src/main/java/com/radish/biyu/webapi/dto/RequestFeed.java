@@ -7,18 +7,18 @@ import org.springframework.web.util.HtmlUtils;
 import java.util.Date;
 
 public class RequestFeed {
-    private Integer uid = null;
+    private Long uid = null;
     private String ftype = null;
     private String lng = "";
     private String lat = "";
     private String message = null;
     private String[] pic = new String[]{};
 
-    public Integer getUid() {
+    public Long getUid() {
         return uid;
     }
 
-    public void setUid(Integer uid) {
+    public void setUid(Long uid) {
         this.uid = uid;
     }
 
@@ -64,7 +64,7 @@ public class RequestFeed {
 
     public static void main(String[] args) {
         RequestFeed r = new RequestFeed();
-        r.setUid(100);
+        r.setUid(100L);
         r.setFtype("0");
         r.setMessage("测试文本内容~121298");
         r.setLat("30.67");
