@@ -1,5 +1,6 @@
 package com.radish.biyu.webapi.controllers;
 
+import com.radish.biyu.webapi.dto.RequestUserInfo;
 import com.radish.biyu.webapi.entity.TUserInfo;
 import com.radish.biyu.webapi.response.ApiStatusCode;
 import com.radish.biyu.webapi.response.ResponseDataModel;
@@ -9,10 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -71,8 +69,8 @@ public class UserController extends BaseController {
      */
     @Deprecated
     @RequestMapping(value = "/login/{phone}/{password}", method = RequestMethod.GET)
-    public ResponseDataModel login(@PathVariable String phone, @PathVariable String password){
-        return success(accountService.login(phone,password));
+    public ResponseDataModel login(@PathVariable String phone, @PathVariable String password) {
+        return success(accountService.login(phone, password));
     }
 
     /**
@@ -131,116 +129,115 @@ public class UserController extends BaseController {
     /**
      * 修改头像
      *
-     * @param id  the id
-     * @param pic the pic
+     * @param id   the id
+     * @param info the info
      * @return response data model
      */
     @RequestMapping(value = "/modify/avatar/{id}", method = RequestMethod.POST)
-    public ResponseDataModel modifyAvatar(@PathVariable Integer id, String pic) {
-        if (StringUtils.isEmpty(id) || StringUtils.isEmpty(pic)) {
+    public ResponseDataModel modifyAvatar(@PathVariable Integer id, @RequestBody RequestUserInfo info) {
+        if (StringUtils.isEmpty(id) || null == info || StringUtils.isEmpty(info.getPic())) {
             return this.error(ApiStatusCode.PARAM_ERROR);
         }
-        return this.success(userInfoService.modifyInfo(new TUserInfo().setId(id).setAvatar(pic)));
+        return this.success(userInfoService.modifyInfo(new TUserInfo().setId(id).setAvatar(info.getPic())));
     }
 
     /**
      * 修改笔名
      *
      * @param id   the id
-     * @param name the name
+     * @param info the name
      * @return response data model
      */
     @RequestMapping(value = "/modify/nick/{id}", method = RequestMethod.POST)
-    public ResponseDataModel modifyNickName(@PathVariable Integer id, String name) {
-        if (StringUtils.isEmpty(id) || StringUtils.isEmpty(name)) {
+    public ResponseDataModel modifyNickName(@PathVariable Integer id, @RequestBody RequestUserInfo info) {
+        if (StringUtils.isEmpty(id) || null == info || StringUtils.isEmpty(info.getName())) {
             return this.error(ApiStatusCode.PARAM_ERROR);
         }
-        return this.success(userInfoService.modifyInfo(new TUserInfo().setId(id).setNickname(name)));
+        return this.success(userInfoService.modifyInfo(new TUserInfo().setId(id).setNickname(info.getName())));
     }
 
     /**
      * 修改个性签名
      *
-     * @param id        the id
-     * @param signature the signature
+     * @param id   the id
+     * @param info the signature
      * @return response data model
      */
     @RequestMapping(value = "/modify/signature/{id}", method = RequestMethod.POST)
-    public ResponseDataModel modifySignature(@PathVariable Integer id, String signature) {
-        if (StringUtils.isEmpty(id) || StringUtils.isEmpty(signature)) {
+    public ResponseDataModel modifySignature(@PathVariable Integer id, @RequestBody RequestUserInfo info) {
+        if (StringUtils.isEmpty(id) || null == info || StringUtils.isEmpty(info.getSignature())) {
             return this.error(ApiStatusCode.PARAM_ERROR);
         }
-        return this.success(userInfoService.modifyInfo(new TUserInfo().setId(id).setSignature(signature)));
+        return this.success(userInfoService.modifyInfo(new TUserInfo().setId(id).setSignature(info.getSignature())));
     }
+
 
     /**
      * 性别+生日+星座
      *
-     * @param id       the id
-     * @param sex      the sex
-     * @param birthday the birthday
-     * @param sign     the sign
-     * @return response data model
+     * @param id
+     * @param info
+     * @return
      */
     @RequestMapping(value = "/modify/info/{id}", method = RequestMethod.POST)
-    public ResponseDataModel modifyInfo(@PathVariable Integer id, String sex, String birthday, String sign) {
-        if (StringUtils.isEmpty(id) || StringUtils.isEmpty(sex) || StringUtils.isEmpty(birthday) || StringUtils.isEmpty(sign)) {
+    public ResponseDataModel modifyInfo(@PathVariable Integer id, @RequestBody RequestUserInfo info) {
+        if (StringUtils.isEmpty(id) || null == info ||
+                StringUtils.isEmpty(info.getSex()) || StringUtils.isEmpty(info.getBirthday()) || StringUtils.isEmpty(info.getSign())) {
             return this.error(ApiStatusCode.PARAM_ERROR);
         }
         Date b = null;
         try {
-            b = new SimpleDateFormat("yyyy-MM-dd").parse(birthday);
+            b = new SimpleDateFormat("yyyy-MM-dd").parse(info.getBirthday());
         } catch (ParseException e) {
             log.error("", e);
         }
-        return this.success(userInfoService.modifyInfo(new TUserInfo().setId(id).setSex(sex).setBirthday(birthday).setZodiac(sign)));
+        return this.success(userInfoService.modifyInfo(new TUserInfo().setId(id).setSex(info.getSex()).setBirthday(info.getBirthday()).setZodiac(info.getSign())));
     }
 
     /**
      * 座标+状态+爱好
      *
-     * @param id       the id
-     * @param location the location
-     * @param status   the status
-     * @param favorite the favorite
-     * @return response data model
+     * @param id
+     * @param info
+     * @return
      */
     @RequestMapping(value = "/modify/otherinfo/{id}", method = RequestMethod.POST)
-    public ResponseDataModel modifyOtherInfo(@PathVariable Integer id, String location, String status, String favorite) {
-        if (StringUtils.isEmpty(id) || StringUtils.isEmpty(location) || StringUtils.isEmpty(status) || StringUtils.isEmpty(favorite)) {
+    public ResponseDataModel modifyOtherInfo(@PathVariable Integer id, @RequestBody RequestUserInfo info) {
+        if (StringUtils.isEmpty(id) || null == info ||
+                StringUtils.isEmpty(info.getLocation()) || StringUtils.isEmpty(info.getStatus()) || StringUtils.isEmpty(info.getFavorite())) {
             return this.error(ApiStatusCode.PARAM_ERROR);
         }
-        return this.success(userInfoService.modifyInfo(new TUserInfo().setId(id).setLocation(location).setStatus(status).setFavorite(favorite)));
+        return this.success(userInfoService.modifyInfo(new TUserInfo().setId(id).setLocation(info.getLocation()).setStatus(info.getStatus()).setFavorite(info.getFavorite())));
     }
 
     /**
      * 修改需求
      *
-     * @param id    the id
-     * @param needs the needs
+     * @param id   the id
+     * @param info the needs
      * @return response data model
      */
     @RequestMapping(value = "/modify/needs/{id}", method = RequestMethod.POST)
-    public ResponseDataModel modifyNeeds(@PathVariable Integer id, String needs) {
-        if (StringUtils.isEmpty(id) || StringUtils.isEmpty(needs)) {
+    public ResponseDataModel modifyNeeds(@PathVariable Integer id, @RequestBody RequestUserInfo info) {
+        if (StringUtils.isEmpty(id) || null == info || StringUtils.isEmpty(info.getNeeds())) {
             return this.error(ApiStatusCode.PARAM_ERROR);
         }
-        return this.success(userInfoService.modifyInfo(new TUserInfo().setId(id).setNeeds(needs)));
+        return this.success(userInfoService.modifyInfo(new TUserInfo().setId(id).setNeeds(info.getNeeds())));
     }
 
     /**
      * 修改邮编
      *
-     * @param id       the id
-     * @param postcode the postcode
+     * @param id   the id
+     * @param info the postcode
      * @return response data model
      */
     @RequestMapping(value = "/modify/postcode/{id}", method = RequestMethod.POST)
-    public ResponseDataModel modifyPostCode(@PathVariable Integer id, String postcode) {
-        if (StringUtils.isEmpty(id) || StringUtils.isEmpty(postcode)) {
+    public ResponseDataModel modifyPostCode(@PathVariable Integer id, @RequestBody RequestUserInfo info) {
+        if (StringUtils.isEmpty(id) || null == info || StringUtils.isEmpty(info.getPostcode())) {
             return this.error(ApiStatusCode.PARAM_ERROR);
         }
-        return this.success(userInfoService.modifyInfo(new TUserInfo().setId(id).setPostcode(postcode)));
+        return this.success(userInfoService.modifyInfo(new TUserInfo().setId(id).setPostcode(info.getPostcode())));
     }
 
 }
