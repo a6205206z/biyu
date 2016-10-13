@@ -61,8 +61,8 @@ public class PenPalService {
      * @param phone the phone
      * @return the list
      */
-    public List<TUserInfo> getMyPenPalList(String phone){
-        return tPenPalDao.getMyPenpalList(phone);
+    public List<TUserInfo> getMyPenPalList(String phone,int lv){
+        return tPenPalDao.getMyPenpalList(phone,lv);
     }
 
     /**
