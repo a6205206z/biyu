@@ -167,15 +167,4 @@ public class AccountService {
         }
         return result;
     }
-
-    /**
-     * Validate sms code boolean.
-     *
-     * @param mobile     the mobile
-     * @param verifiCode the verifi code
-     * @return the boolean
-     */
-    public boolean validateSmsCode(String mobile,String verifiCode){
-        return true;
-    }
 }

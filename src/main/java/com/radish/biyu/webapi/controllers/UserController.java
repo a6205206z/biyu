@@ -38,12 +38,6 @@ public class UserController extends BaseController {
     private UserInfoService userInfoService;
 
 
-    @Deprecated
-    @RequestMapping(value = "/validatesmscode/{phone}/{code}", method = RequestMethod.GET)
-    public ResponseDataModel validateSmsCode(@PathVariable String phone,@PathVariable String code){
-        return success(accountService.validateSmsCode(phone,code));
-    }
-
     /**
      * Gets user.
      *
