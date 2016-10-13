@@ -35,6 +35,7 @@ public class UserController extends BaseController {
     @Autowired
     private UserInfoService userInfoService;
 
+
     /**
      * Gets user.
      *
