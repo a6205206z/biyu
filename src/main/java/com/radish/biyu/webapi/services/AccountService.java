@@ -86,7 +86,7 @@ public class AccountService {
      *
      * @param phone      the phone
      * @param verifiCode the verifi code
-     * @return boolean
+     * @return boolean boolean
      */
     public boolean checkVerifiCode(String phone, String verifiCode) {
         boolean result = false;
@@ -155,7 +155,7 @@ public class AccountService {
      *
      * @param mobile     the mobile
      * @param verifiCode the verifi code
-     * @return boolean
+     * @return boolean boolean
      */
     public boolean addSmsLog(String mobile, String verifiCode) {
         boolean result = false;
@@ -166,5 +166,16 @@ public class AccountService {
             log.error(e.toString());
         }
         return result;
+    }
+
+    /**
+     * Validate sms code boolean.
+     *
+     * @param mobile     the mobile
+     * @param verifiCode the verifi code
+     * @return the boolean
+     */
+    public boolean validateSmsCode(String mobile,String verifiCode){
+        return true;
     }
 }
