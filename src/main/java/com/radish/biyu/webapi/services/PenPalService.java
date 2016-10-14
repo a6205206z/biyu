@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.security.PublicKey;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -59,6 +60,7 @@ public class PenPalService {
      * Get my pen pal list list.
      *
      * @param phone the phone
+     * @param lv    the lv
      * @return the list
      */
     public List<TUserInfo> getMyPenPalList(String phone,int lv){
@@ -68,10 +70,36 @@ public class PenPalService {
     /**
      * Search penpal list.
      *
-     * @param key the key
+     * @param phone   the phone
+     * @param sex     the sex
+     * @param minDate the min date
+     * @param maxDate the max date
+     * @param zodiac  the zodiac
+     * @param status  the status
      * @return the list
      */
-    public List<HashMap<String, Object>> searchPenpal(String phone,String key){
-        return tPenPalDao.searchPenpal(phone,"%"+key+"%");
+    public List<HashMap<String, Object>> searchPenpal(String phone, int sex, Date minDate,Date maxDate,String zodiac, String status) {
+        return tPenPalDao.searchPenpal(phone, sex, minDate, maxDate, zodiac, status);
+    }
+
+    /**
+     * Ignore user boolean.
+     *
+     * @param phone     the phone
+     * @param userPhone the user phone
+     * @return the boolean
+     */
+    public boolean ignoreUser(String phone,String userPhone){
+        return true;
+    }
+
+    /**
+     * Surplus search count int.
+     *
+     * @param phone the phone
+     * @return the int
+     */
+    public int surplusSearchCount(String phone){
+        return 1;
     }
 }

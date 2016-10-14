@@ -3,10 +3,14 @@ package com.radish.biyu.webapi.controllers;
 import com.radish.biyu.webapi.response.ResponseDataModel;
 import com.radish.biyu.webapi.services.PenPalService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.security.DeclareRoles;
+import java.util.Date;
 
 /**
  * radish.com Inc.
@@ -41,8 +45,20 @@ public class PenPalController extends BaseController {
     }
 
     @Deprecated
-    @RequestMapping(value = "/search/{phone}/{key}", method = RequestMethod.GET)
-    public ResponseDataModel searchPenpal(@PathVariable("phone") String phone,@PathVariable String key){
-        return success(penPalService.searchPenpal(phone,key));
+    @RequestMapping(value = "/search/{phone}", method = RequestMethod.POST)
+    public ResponseDataModel searchPenpal(@PathVariable("phone") String phone, int sex, Date minDate, Date maxDate, String zodiac, String status){
+        return success(penPalService.searchPenpal(phone, sex, minDate, maxDate, zodiac, status));
+    }
+
+    @Deprecated
+    @RequestMapping(value = "/ignore/{phone}/{userphone}", method = RequestMethod.GET)
+    public ResponseDataModel ignoreUser(@PathVariable("phone") String phone,@PathVariable("userphone") String userPhone){
+        return  success(penPalService.ignoreUser(phone,userPhone));
+    }
+
+    @Deprecated
+    @RequestMapping(value = "/search/count/{phone}", method = RequestMethod.GET)
+    public ResponseDataModel surplusSearchCount(@PathVariable("phone") String phone){
+        return success(penPalService.surplusSearchCount(phone));
     }
 }
