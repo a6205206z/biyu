@@ -6,6 +6,7 @@ import com.radish.biyu.webapi.response.ApiStatusCode;
 import com.radish.biyu.webapi.response.ResponseDataModel;
 import com.radish.biyu.webapi.services.AccountService;
 import com.radish.biyu.webapi.services.UserInfoService;
+import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -176,9 +177,9 @@ public class UserController extends BaseController {
     /**
      * 性别+生日+星座
      *
-     * @param id
-     * @param info
-     * @return
+     * @param id   the id
+     * @param info the info
+     * @return response data model
      */
     @RequestMapping(value = "/modify/info/{id}", method = RequestMethod.POST)
     public ResponseDataModel modifyInfo(@PathVariable Integer id, @RequestBody RequestUserInfo info) {
@@ -198,9 +199,9 @@ public class UserController extends BaseController {
     /**
      * 座标+状态+爱好
      *
-     * @param id
-     * @param info
-     * @return
+     * @param id   the id
+     * @param info the info
+     * @return response data model
      */
     @RequestMapping(value = "/modify/otherinfo/{id}", method = RequestMethod.POST)
     public ResponseDataModel modifyOtherInfo(@PathVariable Integer id, @RequestBody RequestUserInfo info) {
@@ -241,4 +242,15 @@ public class UserController extends BaseController {
         return this.success(userInfoService.modifyInfo(new TUserInfo().setId(id).setPostcode(info.getPostcode())));
     }
 
+
+    /**
+     * Find user by phone response data model.
+     *
+     * @param phone the phone
+     * @return the response data model
+     */
+    @RequestMapping(value = "/find/{phone}", method = RequestMethod.POST)
+    public ResponseDataModel findUserByPhone(@PathVariable String phone){
+        return this.success(userInfoService.selectUserInfoByPhone(phone));
+    }
 }

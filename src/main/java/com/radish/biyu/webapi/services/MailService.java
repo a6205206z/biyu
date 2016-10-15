@@ -45,11 +45,12 @@ public class MailService {
     /**
      * Get mail to me list.
      *
-     * @param phone the phone
+     * @param phone  the phone
+     * @param status the status
      * @return the list
      */
-    public List<HashMap<String, Object>> getMailToMe(String phone) {
-        return tMailDao.getMailToMe(phone);
+    public List<HashMap<String, Object>> getMailToMe(String phone,int status) {
+        return tMailDao.getMailToMe(phone,status);
     }
 
     /**
@@ -103,7 +104,7 @@ public class MailService {
      * @param mobile 接收方手机号
      * @param mailId 信件标识
      * @param pic    图片URL
-     * @return
+     * @return boolean
      */
     public boolean addStamp(String mobile, Integer mailId, String pic) {
         boolean result = false;
@@ -124,10 +125,10 @@ public class MailService {
     /**
      * 翻页查邮票
      *
-     * @param mobile
-     * @param pageno
-     * @param pagesize
-     * @return
+     * @param mobile   the mobile
+     * @param pageno   the pageno
+     * @param pagesize the pagesize
+     * @return stamp dto
      */
     public StampDTO list(String mobile, Integer pageno, Integer pagesize) {
         StampDTO dto = new StampDTO();

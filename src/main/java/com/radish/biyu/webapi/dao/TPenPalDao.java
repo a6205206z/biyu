@@ -21,8 +21,8 @@ import java.util.List;
  */
 @Repository
 public interface TPenPalDao {
-    @Insert("INSERT INTO t_penpal (phone,penpalPhone,createDate)VALUES(#{phone},#{penpalPhone},now())")
-    int addPenPal(@Param("phone") String phone,@Param("penpalPhone") String penpalPhone);
+    @Insert("INSERT INTO t_penpal (phone,penpalPhone,createDate,lv)VALUES(#{phone},#{penpalPhone},now(),#{lv})")
+    int addPenPal(@Param("phone") String phone,@Param("penpalPhone") String penpalPhone, @Param("lv") int lv);
 
     @Delete("DELETE FROM t_penpal WHERE phone=#{phone} AND penpalPhone=#{penpalPhone}")
     int delPenPal(@Param("phone") String phone,@Param("penpalPhone") String penpalPhone);

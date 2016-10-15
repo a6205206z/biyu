@@ -24,8 +24,8 @@ public interface TMailDao {
     @Select("SELECT * FROM t_mail WHERE fromPhone = #{phone}")
     List<HashMap<String,Object>> getMailFormMe(@Param("phone") String phone);
 
-    @Select("SELECT * FROM t_mail WHERE fromPhone = #{phone} AND allowReciveDate < now()")
-    List<HashMap<String,Object>> getMailToMe(@Param("phone") String phone);
+    @Select("SELECT * FROM t_mail as m LEFT JOIN t_user_info as u on m.fromPhone = u.accountPhone WHERE m.toPhone = #{phone} AND (#{status}=-1 OR m.status = #{status}) AND  allowReciveDate < now()")
+    List<HashMap<String,Object>> getMailToMe(@Param("phone") String phone,@Param("status") int status);
 
     @Insert("INSERT INTO `t_mail` (`subject`, `content`, `fromPhone`, `toPhone`, `status`, `sendDate`, `allowReciveDate`) VALUES (#{subject}, #{content}, #{fromPhone}, #{toPhone}, #{status}, #{sendDate}, #{allowReciveDate});\n")
     int addMail(@Param("subject") String subject, @Param("content") String content, @Param("fromPhone") String fromPhone,

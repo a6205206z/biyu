@@ -54,6 +54,16 @@ public class UserInfoService {
     }
 
     /**
+     * 查询用户信息
+     * @param phone
+     * @return
+     *
+     * */
+    public TUserInfo selectUserInfoByPhone(String phone){
+        return infodao.selectByPhone(phone);
+    }
+
+    /**
      * 积分操作项
      *
      * @param uid   会员ID

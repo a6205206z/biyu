@@ -34,15 +34,16 @@ public class PenPalService {
      *
      * @param phone       the phone
      * @param penpalPhone the penpal phone
+     * @param lv 好友等级
      * @return the boolean
      */
-    public boolean addPenPal(String phone,String penpalPhone){
+    public boolean addPenPal(String phone,String penpalPhone,int lv) {
         boolean result = false;
-        HashMap<String,Object> data = tPenPalDao.getPenPalByPhone(phone,penpalPhone);
-        if(data.get("rowcount").equals(0L)){
-            result = tPenPalDao.addPenPal(phone,penpalPhone) > 0;
+        HashMap<String, Object> data = tPenPalDao.getPenPalByPhone(phone, penpalPhone);
+        if (data.get("rowcount").equals(0L)) {
+            result = tPenPalDao.addPenPal(phone, penpalPhone, lv) > 0;
         }
-        return  result;
+        return result;
     }
 
     /**

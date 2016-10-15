@@ -43,13 +43,14 @@ public class MailController extends BaseController {
     /**
      * Get mail to me response data model.
      *
-     * @param phone the phone
+     * @param phone  the phone
+     * @param status 信件状态,-1:全部,1:已发送;2:已阅读
      * @return the response data model
      */
     @Deprecated
-    @RequestMapping(value = "/get/tolist/{phone}", method = RequestMethod.GET)
-    public ResponseDataModel getMailToMe(@PathVariable String phone){
-        return success(mailService.getMailToMe(phone));
+    @RequestMapping(value = "/get/tolist/{phone}/{status}", method = RequestMethod.GET)
+    public ResponseDataModel getMailToMe(@PathVariable String phone,@PathVariable int status) {
+        return success(mailService.getMailToMe(phone, status));
     }
 
     /**
