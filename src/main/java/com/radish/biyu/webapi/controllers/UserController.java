@@ -6,7 +6,6 @@ import com.radish.biyu.webapi.response.ApiStatusCode;
 import com.radish.biyu.webapi.response.ResponseDataModel;
 import com.radish.biyu.webapi.services.AccountService;
 import com.radish.biyu.webapi.services.UserInfoService;
-import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -196,6 +195,38 @@ public class UserController extends BaseController {
         return this.success(userInfoService.modifyInfo(new TUserInfo().setId(id).setSex(info.getSex()).setBirthday(info.getBirthday()).setZodiac(info.getSign())));
     }
 
+    @RequestMapping(value = "/modify/info/sex{id}", method = RequestMethod.POST)
+    public ResponseDataModel modifyInfoSex(@PathVariable Integer id, @RequestBody RequestUserInfo info) {
+        if (StringUtils.isEmpty(id) || null == info ||
+                StringUtils.isEmpty(info.getSex())) {
+            return this.error(ApiStatusCode.PARAM_ERROR);
+        }
+        return this.success(userInfoService.modifyInfo(new TUserInfo().setId(id).setSex(info.getSex())));
+    }
+
+    @RequestMapping(value = "/modify/info/birthday/{id}", method = RequestMethod.POST)
+    public ResponseDataModel modifyInfoBirthday(@PathVariable Integer id, @RequestBody RequestUserInfo info) {
+        if (StringUtils.isEmpty(id) || null == info ||
+                StringUtils.isEmpty(info.getBirthday())) {
+            return this.error(ApiStatusCode.PARAM_ERROR);
+        }
+        Date b = null;
+        try {
+            b = new SimpleDateFormat("yyyy-MM-dd").parse(info.getBirthday());
+        } catch (ParseException e) {
+            log.error("", e);
+        }
+        return this.success(userInfoService.modifyInfo(new TUserInfo().setId(id).setBirthday(info.getBirthday())));
+    }
+
+    @RequestMapping(value = "/modify/info/sign/{id}", method = RequestMethod.POST)
+    public ResponseDataModel modifyInfoSign(@PathVariable Integer id, @RequestBody RequestUserInfo info) {
+        if (StringUtils.isEmpty(id) || null == info || StringUtils.isEmpty(info.getSign())) {
+            return this.error(ApiStatusCode.PARAM_ERROR);
+        }
+        return this.success(userInfoService.modifyInfo(new TUserInfo().setId(id).setZodiac(info.getSign())));
+    }
+
     /**
      * 座标+状态+爱好
      *
@@ -210,6 +241,30 @@ public class UserController extends BaseController {
             return this.error(ApiStatusCode.PARAM_ERROR);
         }
         return this.success(userInfoService.modifyInfo(new TUserInfo().setId(id).setLocation(info.getLocation()).setStatus(info.getStatus()).setFavorite(info.getFavorite())));
+    }
+
+    @RequestMapping(value = "/modify/otherinfo/location/{id}", method = RequestMethod.POST)
+    public ResponseDataModel modifyOtherInfoLocation(@PathVariable Integer id, @RequestBody RequestUserInfo info) {
+        if (StringUtils.isEmpty(id) || null == info || StringUtils.isEmpty(info.getLocation())) {
+            return this.error(ApiStatusCode.PARAM_ERROR);
+        }
+        return this.success(userInfoService.modifyInfo(new TUserInfo().setId(id).setLocation(info.getLocation())));
+    }
+
+    @RequestMapping(value = "/modify/otherinfo/status/{id}", method = RequestMethod.POST)
+    public ResponseDataModel modifyOtherInfoStatus(@PathVariable Integer id, @RequestBody RequestUserInfo info) {
+        if (StringUtils.isEmpty(id) || null == info || StringUtils.isEmpty(info.getStatus())) {
+            return this.error(ApiStatusCode.PARAM_ERROR);
+        }
+        return this.success(userInfoService.modifyInfo(new TUserInfo().setId(id).setStatus(info.getStatus())));
+    }
+
+    @RequestMapping(value = "/modify/otherinfo/favorite/{id}", method = RequestMethod.POST)
+    public ResponseDataModel modifyOtherInfoFavorite(@PathVariable Integer id, @RequestBody RequestUserInfo info) {
+        if (StringUtils.isEmpty(id) || null == info || StringUtils.isEmpty(info.getFavorite())) {
+            return this.error(ApiStatusCode.PARAM_ERROR);
+        }
+        return this.success(userInfoService.modifyInfo(new TUserInfo().setId(id).setFavorite(info.getFavorite())));
     }
 
     /**
@@ -250,7 +305,7 @@ public class UserController extends BaseController {
      * @return the response data model
      */
     @RequestMapping(value = "/find/{phone}", method = RequestMethod.POST)
-    public ResponseDataModel findUserByPhone(@PathVariable String phone){
+    public ResponseDataModel findUserByPhone(@PathVariable String phone) {
         return this.success(userInfoService.selectUserInfoByPhone(phone));
     }
 }

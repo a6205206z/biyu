@@ -1,9 +1,9 @@
 package com.radish.biyu.webapi.dao;
 
 import com.radish.biyu.webapi.entity.TComment;
-import com.radish.biyu.webapi.entity.TFeed;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.javassist.compiler.ast.IntConst;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -37,5 +37,14 @@ public interface TCommentDao {
      */
     @Select("SELECT t1.`id` AS `id`, t1.`fid` AS `fid`, t1.`comments` AS `comments`, t1.`uid` AS `uid`, t1.`created` AS `created`, t3.`nickName` AS `nickName`, t3.`avatar` AS `avatar` FROM `t_comment` t1, (SELECT `id`,`uid` FROM `t_comment` WHERE fid = #{0} ORDER BY created DESC limit #{1},#{2}) t2 ,`t_user_info` t3 WHERE t1.id = t2.id AND t2.uid = t3.id")
     List<HashMap<String, Object>> list(Long fid, Integer pageno, Integer pagesize);
+
+    /**
+     * 评论总数
+     *
+     * @param fid
+     * @return
+     */
+    @Select("SELECT COUNT(0) AS commentnum FROM `t_comment` WHERE fid = #{fid}")
+    Integer cntComment(Long fid);
 
 }

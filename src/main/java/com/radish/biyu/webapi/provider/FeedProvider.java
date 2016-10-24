@@ -1,12 +1,10 @@
 package com.radish.biyu.webapi.provider;
 
-import com.radish.biyu.webapi.entity.TUserInfo;
 import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
 
 import static org.apache.ibatis.jdbc.SqlBuilder.*;
-import static org.apache.ibatis.jdbc.SqlBuilder.SQL;
 
 /**
  * 会员基础信息SQL生成器
@@ -53,7 +51,7 @@ public class FeedProvider {
         str.append(") t3 ");
         str.append("LEFT JOIN `t_user_info` t4 ON t3.uid = t4.`id`");
 
-        //System.out.println(str.toString());
+//        System.out.println(str.toString());
 
         return str.toString();
     }

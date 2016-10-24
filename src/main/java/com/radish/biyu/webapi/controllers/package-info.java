@@ -65,10 +65,10 @@ POST http://localhost:8089/feed/post
 Content-Type: application/json
 
 //发布动态接口，无图时上传
-{"ftype":"1","lat":"30.67","lng":"104.06","message":"测试文本内容~121298","pic":[],"uid":100}
+{"ftype":"1","lat":"30.67","lng":"104.06","message":"测试文本内容~121298","imgs":"","uid":100}
 
 //发布动态接口，有图时上传
-{"ftype":"1","lat":"30.67","lng":"104.06","message":"测试文本内容~121298","pic":["http://b.hiphotos.baidu.com/baike/c0%3Dbaike80%2C5%2C5%2C80%2C26/sign=277c06a0cc1349546a13e0363727f93d/3812b31bb051f819ffbbbd6bddb44aed2e73e771.jpg","http://b.hiphotos.baidu.com/baike/crop%3D0%2C2%2C560%2C370%3Bc0%3Dbaike80%2C5%2C5%2C80%2C26/sign=44216f7132f33a878a225a5afb6c3c0a/b3b7d0a20cf431ad5af7af784336acaf2edd984e.jpg","http://a.hiphotos.baidu.com/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=88b3ac0bdc2a283457ab3e593adca28f/adaf2edda3cc7cd965fa88cf3101213fb90e91d5.jpg"],"uid":100}
+{"ftype":"1","lat":"30.67","lng":"104.06","message":"测试文本内容~121298","imgs":"[{\"src\":\"imgs/cb3ed76b6fa45a51509d66c2573d7bc3.jpg\"},{\"src\":\"imgs/2cb6e703512fa6ec36ffd3a4a76a5732.jpg\"}]","uid":10}
 
 //=======翻页查询feed列表==================================
 GET http://localhost:8089/feed/list/0/0/10
@@ -89,7 +89,7 @@ islike 为空或不等于1时，则当前用户没有喜欢这条动态
 
 //======查看单条feed信息==================================
 GET http://localhost:8089/feed/get/{fid}
-{"code":"2000000","msg":"操作成功","data":[{"birthday":"1999-09-23","lng":"1","created":1474951199000,"sex":"1","pic":["1","2"],"message":"1","forwarded":0,"liked":0,"uid":20,"ftype":"1","islike":"1","id":11,"lat":"1","commentnum":1},{"birthday":"1999-09-23","lng":"104.06","created":1474901374000,"sex":"1","pic":[],"message":"测试文本内容~14444444444","forwarded":4,"liked":0,"uid":20,"ftype":"1","id":10,"lat":"30.67","commentnum":0},{"birthday":"1999-09-23","lng":"104.06","created":1474901371000,"sex":"1","pic":[],"message":"测试文本内容~123333333","forwarded":3,"liked":2,"uid":7,"ftype":"2","id":9,"lat":"30.67","commentnum":0},{"birthday":"1999-09-23","lng":"104.06","created":1474901011000,"sex":"1","pic":[],"message":"测试文本内容~1232222222222","forwarded":2,"liked":0,"uid":7,"ftype":"2","id":8,"lat":"30.67","commentnum":0},{"birthday":"1999-09-23","lng":"104.06","created":1474900795000,"nickName":"ee","sex":"1","pic":["http://b.hiphotos.baidu.com/baike/c0%3Dbaike80%2C5%2C5%2C80%2C26/sign=277c06a0cc1349546a13e0363727f93d/3812b31bb051f819ffbbbd6bddb44aed2e73e771.jpg","http://b.hiphotos.baidu.com/baike/crop%3D0%2C2%2C560%2C370%3Bc0%3Dbaike80%2C5%2C5%2C80%2C26/sign=44216f7132f33a878a225a5afb6c3c0a/b3b7d0a20cf431ad5af7af784336acaf2edd984e.jpg","http://a.hiphotos.baidu.com/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=88b3ac0bdc2a283457ab3e593adca28f/adaf2edda3cc7cd965fa88cf3101213fb90e91d5.jpg"],"avatar":"123","message":"测试文wwwwwww本内容~1434345345","forwarded":0,"liked":3,"uid":6,"ftype":"1","id":7,"lat":"30.67","commentnum":0},{"birthday":"1999-09-23","lng":"104.06","created":1474900707000,"nickName":"ee","sex":"1","pic":["http://b.hiphotos.baidu.com/baike/c0%3Dbaike80%2C5%2C5%2C80%2C26/sign=277c06a0cc1349546a13e0363727f93d/3812b31bb051f819ffbbbd6bddb44aed2e73e771.jpg","http://b.hiphotos.baidu.com/baike/crop%3D0%2C2%2C560%2C370%3Bc0%3Dbaike80%2C5%2C5%2C80%2C26/sign=44216f7132f33a878a225a5afb6c3c0a/b3b7d0a20cf431ad5af7af784336acaf2edd984e.jpg","http://a.hiphotos.baidu.com/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=88b3ac0bdc2a283457ab3e593adca28f/adaf2edda3cc7cd965fa88cf3101213fb90e91d5.jpg"],"avatar":"123","message":"测试文wwwwwww本内容~121298","forwarded":20,"liked":10,"uid":6,"ftype":"1","id":6,"lat":"30.67","commentnum":1},{"birthday":"1999-09-23","lng":"104.06","created":1474900457000,"nickName":"ee","sex":"1","pic":[],"avatar":"123","message":"测试文本内容~121298","forwarded":2,"liked":7,"uid":6,"ftype":"1","islike":"1","id":2,"lat":"30.67","commentnum":2}]}
+{"code":"2000000","msg":"操作成功","data":{"id":28,"uid":10,"ftype":"1","lng":"104.06","lat":"30.67","message":"测试文本内容~121298","pic":"[{\"src\":\"imgs/cb3ed76b6fa45a51509d66c2573d7bc3.jpg\"},{\"src\":\"imgs/2cb6e703512fa6ec36ffd3a4a76a5732.jpg\"}]","forwarded":0,"liked":0,"commentnum":0,"avatar":"imgs/a046953445d4412ff6e63076d67b75b2.jpg","created":1477275105000}}
 
 //=======发表评论=========================================
 POST http://localhost:8089/comment/post

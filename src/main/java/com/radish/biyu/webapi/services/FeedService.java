@@ -1,6 +1,6 @@
 package com.radish.biyu.webapi.services;
 
-import com.alibaba.fastjson.JSON;
+import com.radish.biyu.webapi.dao.TCommentDao;
 import com.radish.biyu.webapi.dao.TFeedDao;
 import com.radish.biyu.webapi.dao.TLikedDao;
 import com.radish.biyu.webapi.dto.RequestFeed;
@@ -11,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -34,6 +33,8 @@ public class FeedService {
 
     @Autowired
     private TLikedDao tLikedDao;
+    @Autowired
+    private TCommentDao tCommentDao;
 
     /**
      * 发布动态
@@ -45,8 +46,10 @@ public class FeedService {
         try {
             TFeed obj = new TFeed();
             BeanDTOUtil.copyObject(feed, obj);
-            if (null != feed.getPic()) {
-                obj.setPic(JSON.toJSONString(feed.getPic()));
+
+            if (null != feed.getImgs()) {
+                obj.setPic(feed.getImgs());
+//                obj.setPic(JSON.toJSONString(feed.getPic()));
             }
             obj.setCreated(new Date());
             Long id = this.tFeedDao.insert(obj);
@@ -68,12 +71,12 @@ public class FeedService {
     public TFeedDTO get(Long id) {
         TFeedDTO dto = new TFeedDTO();
         try {
-            TFeed obj = this.tFeedDao.get(id);
+            TFeed obj = this.tFeedDao.getBaseInfo(id);
             if (null != obj) {
                 BeanDTOUtil.copyObject(obj, dto);
-                if (!StringUtils.isEmpty(obj.getPic())) {
-                    dto.setPic(JSON.parseObject(obj.getPic(), String[].class));
-                }
+//                if (!StringUtils.isEmpty(obj.getPic())) {
+//                    dto.setPic(JSON.parseObject(obj.getPic(), String[].class));
+//                }
                 return dto;
             }
         } catch (Exception e) {
@@ -92,19 +95,19 @@ public class FeedService {
         HashMap<String, Object> param = new HashMap<String, Object>();
         param.put("uid", uid);
         param.put("ftype", ftype);
-        param.put("pageno", pageno * pagesize);
+        param.put("pageno", pageno);
         param.put("pagesize", pagesize);
         List<HashMap<String, Object>> list = this.tFeedDao.list(param);
 
-        if (null != list && !list.isEmpty()) {
-            for (HashMap<String, Object> map : list) {
-                //json转数组
-                if (!StringUtils.isEmpty(map.get("pic"))) {
-                    map.put("pic", JSON.parseObject((String) map.get("pic"), String[].class));
-                }
+//        if (null != list && !list.isEmpty()) {
+//            for (HashMap<String, Object> map : list) {
+//                //json转数组
+//                if (!StringUtils.isEmpty(map.get("pic"))) {
+//                    map.put("pic", JSON.parseObject((String) map.get("pic"), String[].class));
+//                }
                 //经纬度处理，等
-            }
-        }
+//            }
+//        }
         return list;
     }
 

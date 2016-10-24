@@ -17,10 +17,29 @@ public class TFeedDTO extends BaseDTO {
     private String lng = "";
     private String lat = "";
     private String message = "";
-    private String[] pic = new String[]{};
+//    private String[] pic = new String[]{};
+    private String pic = "";
     private Integer forwarded = 0;
     private Integer liked = 0;
+    private Integer commentnum = 0;
+    private String avatar = "";
     private Date created;
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public Integer getCommentnum() {
+        return commentnum;
+    }
+
+    public void setCommentnum(Integer commentnum) {
+        this.commentnum = commentnum;
+    }
 
     public Long getId() {
         return id;
@@ -70,11 +89,19 @@ public class TFeedDTO extends BaseDTO {
         this.message = message;
     }
 
-    public String[] getPic() {
+//    public String[] getPic() {
+//        return pic;
+//    }
+//
+//    public void setPic(String[] pic) {
+//        this.pic = pic;
+//    }
+
+    public String getPic() {
         return pic;
     }
 
-    public void setPic(String[] pic) {
+    public void setPic(String pic) {
         this.pic = pic;
     }
 

@@ -30,6 +30,9 @@ public interface TFeedDao {
     @Select("SELECT `id`,`uid`,`ftype`,`message`,`forwarded`,`liked`,`pic`,`lng`,`lat`,`created` FROM `t_feed` WHERE id =#{id}")
     TFeed get(Long id);
 
+    @Select("SELECT `id`,`uid`,`ftype`,`message`,`forwarded`,`liked`,`pic`,`lng`,`lat`,`created`,(SELECT COUNT(0) FROM `t_comment` WHERE fid = t.`id`) AS commentnum, (SELECT `avatar` FROM `t_user_info` WHERE id = t.`uid`) AS `avatar` FROM `t_feed` t WHERE id =#{id}")
+    TFeed getBaseInfo(Long id);
+
     @SelectProvider(type = FeedProvider.class, method = "listSql")
     List<HashMap<String, Object>> list(HashMap<String, Object> param);
 
