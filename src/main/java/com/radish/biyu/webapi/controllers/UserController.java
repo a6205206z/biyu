@@ -75,6 +75,17 @@ public class UserController extends BaseController {
     }
 
     /**
+     * 获取验证码
+     *
+     * @param phone
+     * @return
+     */
+    @RequestMapping(value = "/register/sms/{phone}", method = RequestMethod.GET)
+    public ResponseDataModel getVerifiCode(@PathVariable String phone) {
+        return success(accountService.getVerifiCode(phone));
+    }
+
+    /**
      * 注册第一步较验
      *
      * @param phone      the phone
@@ -83,7 +94,7 @@ public class UserController extends BaseController {
      */
     @RequestMapping(value = "/register/{phone}/{verifiCode}", method = RequestMethod.POST)
     public ResponseDataModel checkVerifiCode(@PathVariable String phone, @PathVariable String verifiCode) {
-        return success(accountService.checkVerifiCode(phone, verifiCode));
+        return success(accountService.checkVerifiCode2(phone, verifiCode));
     }
 
     /**

@@ -1,13 +1,15 @@
 package com.radish.biyu.webapi.services;
 
 import com.radish.biyu.webapi.dao.TPenPalDao;
+import com.radish.biyu.webapi.dao.TSearchLogDao;
+import com.radish.biyu.webapi.entity.TSearchLog;
 import com.radish.biyu.webapi.entity.TUserInfo;
+import com.radish.biyu.webapi.util.Helper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.security.PublicKey;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -28,16 +30,18 @@ public class PenPalService {
      */
     @Autowired
     TPenPalDao tPenPalDao;
+    @Autowired
+    TSearchLogDao tSearchLogDao;
 
     /**
      * Add pen pal boolean.
      *
      * @param phone       the phone
      * @param penpalPhone the penpal phone
-     * @param lv 好友等级
+     * @param lv          好友等级
      * @return the boolean
      */
-    public boolean addPenPal(String phone,String penpalPhone,int lv) {
+    public boolean addPenPal(String phone, String penpalPhone, int lv) {
         boolean result = false;
         HashMap<String, Object> data = tPenPalDao.getPenPalByPhone(phone, penpalPhone);
         if (data.get("rowcount").equals(0L)) {
@@ -53,8 +57,8 @@ public class PenPalService {
      * @param penpalPhone the penpal phone
      * @return the boolean
      */
-    public boolean delPenPal(String phone,String penpalPhone){
-        return tPenPalDao.delPenPal(phone,penpalPhone) > 0;
+    public boolean delPenPal(String phone, String penpalPhone) {
+        return tPenPalDao.delPenPal(phone, penpalPhone) > 0;
     }
 
     /**
@@ -64,8 +68,28 @@ public class PenPalService {
      * @param lv    the lv
      * @return the list
      */
-    public List<TUserInfo> getMyPenPalList(String phone,int lv){
-        return tPenPalDao.getMyPenpalList(phone,lv);
+    public List<TUserInfo> getMyPenPalList(String phone, int lv) {
+        return tPenPalDao.getMyPenpalList(phone, lv);
+    }
+
+    /**
+     * 添加搜索日志
+     *
+     * @param phone
+     * @return
+     */
+    public boolean searchAddLog(String phone) {
+        Integer t = 0;
+        t = tSearchLogDao.cnt(phone, Helper.getTodayString());
+        if (t == null || t < 10) {
+            TSearchLog log = new TSearchLog();
+            log.setPhone(phone);
+            log.setCondition("");
+            log.setSearchTime(new Date());
+            tSearchLogDao.insert(log);
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -79,7 +103,7 @@ public class PenPalService {
      * @param status  the status
      * @return the list
      */
-    public List<HashMap<String, Object>> searchPenpal(String phone, int sex, Date minDate,Date maxDate,String zodiac, String status) {
+    public List<HashMap<String, Object>> searchPenpal(String phone, int sex, Date minDate, Date maxDate, String zodiac, String status) {
         return tPenPalDao.searchPenpal(phone, sex, minDate, maxDate, zodiac, status);
     }
 
@@ -90,7 +114,7 @@ public class PenPalService {
      * @param userPhone the user phone
      * @return the boolean
      */
-    public boolean ignoreUser(String phone,String userPhone){
+    public boolean ignoreUser(String phone, String userPhone) {
         return true;
     }
 
@@ -100,7 +124,7 @@ public class PenPalService {
      * @param phone the phone
      * @return the int
      */
-    public int surplusSearchCount(String phone){
+    public int surplusSearchCount(String phone) {
         return 1;
     }
 }

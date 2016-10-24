@@ -28,6 +28,7 @@ public enum ApiStatusCode {
     DB_DELETE_ERROR("2010010", "数据库删除失败"),
 
     FAILD("2010011", "操作失败"),
+    SEARCH_LIMIE_CNT("2010012", "匹配次数用完"),
 
     PARAM_ERROR("2020001", "参数错误！"),
 

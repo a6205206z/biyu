@@ -1,15 +1,20 @@
 package com.radish.biyu.webapi.services;
 
+import com.alibaba.fastjson.JSON;
 import com.radish.biyu.webapi.dao.TAccountDao;
 import com.radish.biyu.webapi.dao.TSmsLogDao;
 import com.radish.biyu.webapi.dao.TUserInfoDao;
 import com.radish.biyu.webapi.entity.TAccount;
 import com.radish.biyu.webapi.entity.TUserInfo;
+import com.radish.biyu.webapi.rong.CodeSuccessReslut;
+import com.radish.biyu.webapi.rong.SMS;
+import com.radish.biyu.webapi.rong.SMSSendCodeReslut;
 import com.radish.biyu.webapi.util.Helper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -65,7 +70,7 @@ public class AccountService {
      * @param password the password
      * @return the hash map
      */
-    public TUserInfo login(String phone, String password){
+    public TUserInfo login(String phone, String password) {
 
         TUserInfo result = null;
         try {
@@ -82,12 +87,31 @@ public class AccountService {
     }
 
     /**
+     * @param phone
+     * @return
+     */
+    public boolean getVerifiCode(String phone) {
+        SMS sms = SMS.getInstance();
+        try {
+            SMSSendCodeReslut sMSSendCodeResult = sms.sendCode(phone, "templateId", "86", "", "");
+            log.info("sendCode:  " + JSON.toJSONString(sMSSendCodeResult));
+            if (200 == sMSSendCodeResult.getCode()) {
+                this.addSmsLog(phone, sMSSendCodeResult.getSessionId());
+            }
+        } catch (Exception e) {
+            log.error("", e);
+        }
+        return false;
+    }
+
+    /**
      * 注册验证短信，15分钟内有效
      *
      * @param phone      the phone
      * @param verifiCode the verifi code
      * @return boolean boolean
      */
+    @Deprecated
     public boolean checkVerifiCode(String phone, String verifiCode) {
         boolean result = false;
         Calendar c = Calendar.getInstance();
@@ -95,6 +119,33 @@ public class AccountService {
         Long exists = this.tSmsLogDao.checkVerifiCode(phone, verifiCode, c.getTime());
         if (null != exists && exists > 0) {
             result = true;
+        }
+        return result;
+    }
+
+    /**
+     * 采用接口验证短信
+     *
+     * @param phone
+     * @param verifiCode
+     * @return
+     */
+    public boolean checkVerifiCode2(String phone, String verifiCode) {
+        boolean result = false;
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.MINUTE, -15);
+        String sessionId = this.tSmsLogDao.checkVerifiCode(phone, c.getTime());
+        if (!StringUtils.isEmpty(sessionId)) {
+            //发送请求验证
+            SMS sms = SMS.getInstance();
+            try {
+                CodeSuccessReslut sMSVerifyCodeResult = sms.verifyCode(sessionId, "2312312");
+                if (200 == sMSVerifyCodeResult.getCode()) {
+                    result = true;
+                }
+            } catch (Exception e) {
+                log.error("", e);
+            }
         }
         return result;
     }

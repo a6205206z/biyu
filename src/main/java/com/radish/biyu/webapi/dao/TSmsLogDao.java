@@ -19,7 +19,10 @@ public interface TSmsLogDao {
     @Insert("INSERT INTO `t_sms_log` (`mobile`, `verifi_code`, `created`)  VALUES (#{mobile},#{verifiCode},#{created})")
     int addSmsLog(@Param("mobile") String mobile, @Param("verifiCode") String verifiCode, @Param("created") Date created);
 
+    @Deprecated
     @Select("SELECT id FROM `t_sms_log` WHERE mobile= #{0} AND `verifi_code` =#{1} AND `created` >=#{2} ORDER BY created DESC LIMIT 1")
     Long checkVerifiCode(String mobile, String verifiCode, Date date);
 
+    @Select("SELECT verifi_code FROM `t_sms_log` WHERE mobile= #{0} AND `created` >=#{1} ORDER BY created DESC LIMIT 1")
+    String checkVerifiCode(String mobile, Date date);
 }
