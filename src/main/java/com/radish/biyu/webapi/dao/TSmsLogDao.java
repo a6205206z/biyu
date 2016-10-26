@@ -24,5 +24,5 @@ public interface TSmsLogDao {
     Long checkVerifiCode(String mobile, String verifiCode, Date date);
 
     @Select("SELECT verifi_code FROM `t_sms_log` WHERE mobile= #{0} AND `created` >=#{1} ORDER BY created DESC LIMIT 1")
-    String checkVerifiCode(String mobile, Date date);
+    String getVerifiCode(String mobile, Date date);
 }

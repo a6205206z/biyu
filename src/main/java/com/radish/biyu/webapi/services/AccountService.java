@@ -134,7 +134,7 @@ public class AccountService {
         boolean result = false;
         Calendar c = Calendar.getInstance();
         c.add(Calendar.MINUTE, -15);
-        String sessionId = this.tSmsLogDao.checkVerifiCode(phone, c.getTime());
+        String sessionId = this.tSmsLogDao.getVerifiCode(phone, c.getTime());
         if (!StringUtils.isEmpty(sessionId)) {
             //发送请求验证
             SMS sms = SMS.getInstance();
