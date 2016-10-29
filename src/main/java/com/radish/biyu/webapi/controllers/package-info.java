@@ -160,4 +160,48 @@ GET http://localhost:8089/stamp/list/15729728701/0/2
 total ：总数
 list : pic 图片URL
 
+
+----10.29
+
+//修改资料拆分接口
+{[/user/modify/info/sex/{id}],methods=[POST]}
+POST http://localhost:8089/user/modify/info/sex/10
+{"sex":"1"}
+
+
+{[/user/modify/info/birthday/{id}],methods=[POST]}
+POST http://localhost:8089/user/modify/info/birthday/10
+{"birthday":"2016-09-09"}
+
+
+{[/user/modify/info/sign/{id}],methods=[POST]}
+POST http://localhost:8089/user/modify/info/sign/10
+{"sign":"天秤座"}
+
+
+{[/user/modify/otherinfo/location/{id}],methods=[POST]}
+POST http://localhost:8089/user/modify/otherinfo/location/10
+{"location":"四川成都"}
+
+{[/user/modify/otherinfo/status/{id}],methods=[POST]}
+POST http://localhost:8089/user/modify/otherinfo/status/10
+{"status":"职业经理人"}
+
+{[/user/modify/otherinfo/favorite/{id}],methods=[POST]}
+POST http://localhost:8089/user/modify/otherinfo/favorite/10
+{"favorite":"动漫，运动"}
+
+
+//我的动态接口，返回值同 动态列表
+{[/feed/my/{uid}/{pageno}/{pagesize}]}
+GET http://localhost:8089/feed/my/10/0/10
+
+
+//我收到的评论翻页查询
+{[/comment/my/{uid}/{pageno}/{pagesize}]}
+GET http://localhost:8089/comment/my/1/0/10
+{"code":"2000000","msg":"操作成功","data":[{"fid":2,"uid":8,"comments":"在那里啊？出来eweeeeeeeeeeeeeeeeqewrdcasdfasdfsadfgregregrhigh","created":1474941934000,"nickName":"超人","id":4,"avatar":"http://baidu.com/logo.jpg"}]}
+
+
+
 */

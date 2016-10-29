@@ -206,7 +206,7 @@ public class UserController extends BaseController {
         return this.success(userInfoService.modifyInfo(new TUserInfo().setId(id).setSex(info.getSex()).setBirthday(info.getBirthday()).setZodiac(info.getSign())));
     }
 
-    @RequestMapping(value = "/modify/info/sex{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/modify/info/sex/{id}", method = RequestMethod.POST)
     public ResponseDataModel modifyInfoSex(@PathVariable Integer id, @RequestBody RequestUserInfo info) {
         if (StringUtils.isEmpty(id) || null == info ||
                 StringUtils.isEmpty(info.getSex())) {

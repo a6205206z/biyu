@@ -57,4 +57,15 @@ public class TCommentService {
     public List<HashMap<String, Object>> list(Long fid, Integer pageno, Integer pagesize) {
         return this.commentDao.list(fid, pageno * pagesize, pagesize);
     }
+
+    /**
+     *
+     * @param uid
+     * @param pageno
+     * @param pagesize
+     * @return
+     */
+    public List<HashMap<String, Object>> forMeComment(Long uid, Integer pageno, Integer pagesize) {
+        return this.commentDao.forMeComment(uid, pageno * pagesize, pagesize);
+    }
 }

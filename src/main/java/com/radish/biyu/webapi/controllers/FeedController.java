@@ -1,19 +1,14 @@
 package com.radish.biyu.webapi.controllers;
 
-import com.alibaba.fastjson.JSON;
 import com.radish.biyu.webapi.dto.RequestFeed;
-import com.radish.biyu.webapi.entity.TFeed;
 import com.radish.biyu.webapi.response.ApiStatusCode;
 import com.radish.biyu.webapi.response.ResponseDataModel;
 import com.radish.biyu.webapi.services.FeedService;
-import com.radish.biyu.webapi.util.BeanDTOUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Date;
 
 /**
  * radish.com Inc.
@@ -88,6 +83,31 @@ public class FeedController extends BaseController {
     }
 
     /**
+     * 我的动态接口
+     * @param uid
+     * @param pageno
+     * @param pagesize
+     * @param lng
+     * @param lat
+     * @return
+     */
+    @RequestMapping(value = "/my/{uid}/{pageno}/{pagesize}")
+    public ResponseDataModel myfeeds(@PathVariable Long uid, @PathVariable Integer pageno, @PathVariable Integer pagesize,
+                                     @RequestParam(required = false) String lng,
+                                     @RequestParam(required = false) String lat) {
+        if (pageno == null) {
+            pageno = 0;
+        }
+        if (pagesize == null) {
+            pagesize = 20;
+        }
+        if (null == uid) {
+            return this.error(ApiStatusCode.PARAM_ERROR);
+        }
+        return this.success(this.feedService.myFeedlist(uid, pageno, pagesize));
+    }
+
+    /**
      * 转发分享+1
      *
      * @param fid
@@ -108,11 +128,11 @@ public class FeedController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/liked/{fid}/{uid}", method = RequestMethod.POST)
-    public ResponseDataModel addLike(@PathVariable Long fid,@PathVariable Long uid) {
+    public ResponseDataModel addLike(@PathVariable Long fid, @PathVariable Long uid) {
         if (null == fid || null == uid) {
             return this.error(ApiStatusCode.PARAM_ERROR);
         }
-        return this.success(feedService.addLike(fid,uid));
+        return this.success(feedService.addLike(fid, uid));
     }
 
 }

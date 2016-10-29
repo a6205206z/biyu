@@ -111,6 +111,24 @@ public class FeedService {
         return list;
     }
 
+    public List<HashMap<String, Object>> myFeedlist(Long uid, Integer pageno, Integer pagesize) {
+        HashMap<String, Object> param = new HashMap<String, Object>();
+        param.put("uid", uid);
+        param.put("pageno", pageno);
+        param.put("pagesize", pagesize);
+        List<HashMap<String, Object>> list = this.tFeedDao.myFeedlist(param);
+
+//        if (null != list && !list.isEmpty()) {
+//            for (HashMap<String, Object> map : list) {
+//                //json转数组
+//                if (!StringUtils.isEmpty(map.get("pic"))) {
+//                    map.put("pic", JSON.parseObject((String) map.get("pic"), String[].class));
+//                }
+        //经纬度处理，等
+//            }
+//        }
+        return list;
+    }
     /**
      * 分享+1
      *

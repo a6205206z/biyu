@@ -39,4 +39,7 @@ public interface TFeedDao {
     @UpdateProvider(type = FeedProvider.class, method = "clickFav")
     boolean clickFav(HashMap<String, Object> param);
 
+    @SelectProvider(type = FeedProvider.class, method = "myfeed_listSql")
+    List<HashMap<String, Object>> myFeedlist(HashMap<String, Object> param);
+
 }

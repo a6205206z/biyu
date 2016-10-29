@@ -1,10 +1,8 @@
 package com.radish.biyu.webapi.controllers;
 
 import com.radish.biyu.webapi.dto.RequestComment;
-import com.radish.biyu.webapi.dto.RequestFeed;
 import com.radish.biyu.webapi.response.ApiStatusCode;
 import com.radish.biyu.webapi.response.ResponseDataModel;
-import com.radish.biyu.webapi.services.FeedService;
 import com.radish.biyu.webapi.services.TCommentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -70,5 +68,25 @@ public class CommentController extends BaseController {
         return this.success(this.commentService.list(fid, pageno, pagesize));
     }
 
-
+    /**
+     * 我收到的评论翻页查询
+     *
+     * @param uid
+     * @param pageno
+     * @param pagesize
+     * @return
+     */
+    @RequestMapping(value = "/my/{uid}/{pageno}/{pagesize}")
+    public ResponseDataModel forMeComment(@PathVariable Long uid, @PathVariable Integer pageno, @PathVariable Integer pagesize) {
+        if (null == uid) {
+            return this.error(ApiStatusCode.PARAM_ERROR);
+        }
+        if (pageno == null) {
+            pageno = 0;
+        }
+        if (pagesize == null) {
+            pagesize = 20;
+        }
+        return this.success(this.commentService.forMeComment(uid, pageno, pagesize));
+    }
 }
