@@ -139,7 +139,7 @@ public class AccountService {
             //发送请求验证
             SMS sms = SMS.getInstance();
             try {
-                CodeSuccessReslut sMSVerifyCodeResult = sms.verifyCode(sessionId, "2312312");
+                CodeSuccessReslut sMSVerifyCodeResult = sms.verifyCode(sessionId, verifiCode);
                 if (200 == sMSVerifyCodeResult.getCode()) {
                     result = true;
                 }
