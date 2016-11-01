@@ -113,4 +113,17 @@ public class PenPalController extends BaseController {
     public ResponseDataModel surplusSearchCount(@PathVariable("phone") String phone) {
         return success(penPalService.surplusSearchCount(phone));
     }
+
+    /**
+     * getPenPalByPhone
+     *
+     * @param phone the phone
+     * @param penpalPhone the penpal phone
+     * @return the response data model
+     */
+    @Deprecated
+    @RequestMapping(value = "/get/{phone}/{penpalPhone}", method = RequestMethod.GET)
+    public ResponseDataModel getPenPalByPhone(@PathVariable("phone") String phone,@PathVariable("penpalPhone") String penpalPhone) {
+        return success(penPalService.getPenPalByPhone(phone,penpalPhone));
+    }
 }

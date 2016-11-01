@@ -51,6 +51,17 @@ public class PenPalService {
     }
 
     /**
+     * Get pen pal hash map.
+     *
+     * @param phone       the phone
+     * @param penpalPhone the penpal phone
+     * @return the HashMap
+     */
+    public HashMap<String,Object> getPenPalByPhone(String phone, String penpalPhone) {
+        return tPenPalDao.getPenPal(phone,penpalPhone);
+    }
+
+    /**
      * Del pen pal boolean.
      *
      * @param phone       the phone
