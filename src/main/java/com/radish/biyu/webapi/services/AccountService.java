@@ -93,10 +93,11 @@ public class AccountService {
     public boolean getVerifiCode(String phone) {
         SMS sms = SMS.getInstance();
         try {
-            SMSSendCodeReslut sMSSendCodeResult = sms.sendCode(phone, "templateId", "86", "", "");
+            SMSSendCodeReslut sMSSendCodeResult = sms.sendCode(phone, "fkHrc7VGQbr8YbUF7aggs5", "86", "", "");
             log.info("sendCode:  " + JSON.toJSONString(sMSSendCodeResult));
             if (200 == sMSSendCodeResult.getCode()) {
                 this.addSmsLog(phone, sMSSendCodeResult.getSessionId());
+                return true;
             }
         } catch (Exception e) {
             log.error("", e);
@@ -140,7 +141,8 @@ public class AccountService {
             SMS sms = SMS.getInstance();
             try {
                 CodeSuccessReslut sMSVerifyCodeResult = sms.verifyCode(sessionId, verifiCode);
-                if (200 == sMSVerifyCodeResult.getCode()) {
+                log.info(JSON.toJSONString(sMSVerifyCodeResult));
+                if (200 == sMSVerifyCodeResult.getCode() && sMSVerifyCodeResult.getSuccess()) {
                     result = true;
                 }
             } catch (Exception e) {

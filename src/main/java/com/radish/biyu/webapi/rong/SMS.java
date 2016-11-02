@@ -113,7 +113,6 @@ public class SMS {
         if (body.indexOf("&") == 0) {
             body = body.substring(1, body.length());
         }
-
         HttpURLConnection conn = HttpUtil.CreatePostHttpConnection(HostType.SMS, appKey, appSecret, "/verifyCode.json", "application/x-www-form-urlencoded");
         HttpUtil.setBodyParameter(body, conn);
 

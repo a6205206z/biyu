@@ -9,10 +9,19 @@ public class CodeSuccessReslut {
     Integer code;
     // 错误信息。
     String errorMessage;
+    Boolean success;
 
     public CodeSuccessReslut(Integer code, String errorMessage) {
         this.code = code;
         this.errorMessage = errorMessage;
+    }
+
+    public Boolean getSuccess() {
+        return success;
+    }
+
+    public void setSuccess(Boolean success) {
+        this.success = success;
     }
 
     /**

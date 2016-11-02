@@ -203,5 +203,20 @@ GET http://localhost:8089/comment/my/1/0/10
 {"code":"2000000","msg":"操作成功","data":[{"fid":2,"uid":8,"comments":"在那里啊？出来eweeeeeeeeeeeeeeeeqewrdcasdfasdfsadfgregregrhigh","created":1474941934000,"nickName":"超人","id":4,"avatar":"http://baidu.com/logo.jpg"}]}
 
 
+//11.02
+//发送短信接口
+{[/user/register/sms/{phone}],methods=[GET]}
+GET http://localhost:8089/user/register/sms/15729728701
+{"code":"2000000","msg":"操作成功","data":true}
+
+//验证短信
+{[/user/register/{phone}/{verifiCode}],methods=[POST]}
+POST http://localhost:8089/user/register/15729728701/257820
+{"code":"2000000","msg":"操作成功","data":true}
+
+//常见的问题有:
+1：一个手机号一天只能接收3条（注意频率）
+2：一个验证码只能验证一次，重复验证会失败
+3：平台返回的错误我都隐藏了，统一返回false.只有为true才成功;
 
 */
