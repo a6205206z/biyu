@@ -136,6 +136,11 @@ public class PenPalService {
      * @return the int
      */
     public int surplusSearchCount(String phone) {
-        return 1;
+        Integer t = 0;
+        t = tSearchLogDao.cnt(phone, Helper.getTodayString());
+        if(t == null){
+            t = 0;
+        }
+        return 10 - t;
     }
 }
